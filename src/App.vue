@@ -1,32 +1,30 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+<el-container id="app" style="height: 500px; border: 1px solid #eee">
+<app-header></app-header>
+<app-aside></app-aside>
+<app-Main></app-Main>
+</el-container>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Header from './views/Header'
+import Aside from './views/Aside'
+import Main from './views/Main'
+export default {
+  // name: "苏州银行系统",
+  data() {
+    return {
 
-#nav {
-  padding: 30px;
-}
+    }
+  },
+  components:{
+    "app-header":Header,
+    "app-aside":Aside,
+    "app-Main":Main
+  },
+  methods: {
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  },
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+};
+</script>
