@@ -52,20 +52,37 @@
 
 <script>
 import { store } from "../store.js"
+const axios = require('axios')
 
 export default {
   data() {
     return {
       tableData: null
     }
-  }, mounted() {
-    store.getEnterpriseList();
-    this.tableData=store.enterpriseList;//进一步处理
-  }, methods: {
-
-    // formatter(row, column) {
-    //   return row.address;
-    // }
+  },
+  mounted: function () {
+    this.getEnterpriseList();
+    this.tableData = store.state.enterpriseList;//进一步处理
+    console.log("enterpriseTable:", this.tableData)
+  },
+  methods: {
+    getEnterpriseList: () => {
+      axios({
+        method: "get",
+        url: "http://139.224.233.19:50000/biologicalmedicine/getEnterpriseList",
+        params: {
+          chainname: store.state.chainname,
+          provincename: store.state.provincename,
+          cityname: store.state.cityname,
+          keywords: store.state.keywords
+        }
+      })
+          .then(res => {
+            store.state.enterpriseList = res.data
+            console.log("enterpriseList:" + res.data[0])
+          })
+          .catch(error => console.log(error))
+    },
   }
 }
 </script>

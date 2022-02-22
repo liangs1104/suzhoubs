@@ -1,33 +1,25 @@
 <template>
-  <el-container id="app" style="height: 500px; border: 1px solid #eee">
+  <el-container id="detail" style="height: 500px; border: 1px solid #eee">
     <el-header  style="height: 80px;background-color: rgb(238, 241, 246);padding: 0;">
       <app-header></app-header>
     </el-header>
     <el-container>
-      <el-aside width="300px">
-        <app-aside></app-aside>
-      </el-aside>
       <el-main>
-        <app-main></app-main>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import Header from './views/Header'
-import Aside from './views/Aside'
-import Main from './views/Main'
+import Header from './Header'
 
 export default {
-  // name: "苏州银行系统",
+  name: "Detail",
   data() {
     return {}
   },
   components: {
     "app-header": Header,
-    "app-aside": Aside,
-    "app-main": Main
   },
   methods: {},
 
