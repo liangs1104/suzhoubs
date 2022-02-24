@@ -1,6 +1,8 @@
 <template>
   <div>
+    <el-button @click="getEnterpriseList"></el-button>
     <el-table
+        v-loading="loading"
         :data="tableData"
         style="width: 100%"
         :default-sort="{prop: 'Num', order: 'descending'}"
@@ -40,18 +42,12 @@
           sortable
           >
       </el-table-column>
-<!--      <el-table-column-->
-<!--          prop="capitalcurrency"-->
-<!--          label="注册资本单位"-->
-<!--          >-->
-<!--      </el-table-column>-->
       <el-table-column
           prop="domicile"
           label="注册地"
           >
       </el-table-column>
     </el-table>
-    <el-button @click="getEnterpriseList"></el-button>
   </div>
 
 </template>
@@ -64,25 +60,19 @@ export default {
   data() {
     return {
       tableData: this.$store.state.enterpriseList,
-      currentRow: null
+      currentRow: null,
+      loading:true,
     }
   },
-  created() {
-    this.$store.dispatch(
-        'getEnterpriseList',
-        {
-          chainname: this.$store.state.chainname,
-          provincename: this.$store.state.provincename,
-          cityname: this.$store.state.cityname,
-          keywords: this.$store.state.keywords
-        }
-    )
+  beforeCreate() {
   },
-  mounted: function () {
+  created() {
     this.getEnterpriseList();
   },
+  mounted: function () {
+  },
   computed: {
-    ...mapState(["enterpriseList"])
+    ...mapState(["enterpriseList","LOADING"])
   },
   methods: {
     handleCurrentChange(val) {
@@ -91,7 +81,7 @@ export default {
       let routeUrl = this.$router.resolve({name: 'detail', params: {enterprisename: val.enterprisename.trim()}});
       window.open(routeUrl.href, '_blank')
     },
-    getEnterpriseList() {
+    async getEnterpriseList() {
       //   axios({
       //     method: "get",
       //     url: "http://139.224.233.19:50000/biologicalmedicine/getEnterpriseList",
@@ -114,20 +104,32 @@ export default {
       //       })
       //       .catch(error => console.log(error))
       // },
-      var preTableData = this.$store.state.enterpriseList
-      console.log('preTableData:', preTableData)
-
-      for (let i = 0; i < preTableData.length; i++) {
-
-        preTableData[i].words = preTableData[i].words.trim().split(/[ ]+/).slice(0, 3).join(" ")
-
-        preTableData[i].capital = parseFloat(preTableData[i].capital).toFixed(2) + " "+preTableData[i].capitalcurrency
-
-        preTableData[i].establishdate = preTableData[i].establishdate.slice(0,10)
-
-      }
-
-      this.tableData = preTableData
+      this.tableData = await this.$store.dispatch(
+          'getEnterpriseList',
+          {
+            chainname: this.$store.state.chainname,
+            provincename: this.$store.state.provincename,
+            cityname: this.$store.state.cityname,
+            keywords: this.$store.state.keywords
+          }
+      )
+      this.loading = false
+      // this.loading =false
+      //
+      // var preTableData = this.$store.state.enterpriseList
+      // console.log('preTableData:', preTableData)
+      //
+      // for (let i = 0; i < preTableData.length; i++) {
+      //
+      //   preTableData[i].words = preTableData[i].words.trim().split(/[ ]+/).slice(0, 3).join(" ")
+      //
+      //   preTableData[i].capital = parseFloat(preTableData[i].capital).toFixed(2) + " "+preTableData[i].capitalcurrency
+      //
+      //   preTableData[i].establishdate = preTableData[i].establishdate.slice(0,10)
+      //
+      // }
+      //
+      // this.tableData = preTableData
     },
   }
 }

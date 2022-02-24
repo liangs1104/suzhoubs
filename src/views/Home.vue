@@ -7,9 +7,13 @@
       <el-aside width="300px">
         <home-aside></home-aside>
       </el-aside>
+      <div class="content-box" style="left: 300px">
+        <div class="content">
       <el-main>
         <home-main></home-main>
       </el-main>
+        </div>
+      </div>
     </el-container>
   </el-container>
 </template>

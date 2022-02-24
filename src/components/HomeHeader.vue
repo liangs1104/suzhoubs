@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="logo" style="    padding-left: 20px;">苏州银行 产业数据库</div>
+    <div class="logo" style="padding-left: 20px;">苏州银行 产业数据库</div>
     <div class="header-left">
       <div class="header-user-con">
 
@@ -8,7 +8,7 @@
           <img :src="imgurl" />
         </div>
 
-        <el-select style="margin-left: 20px;" v-model="chainSelectedOptions" placeholder="请选择">
+        <el-select class="mr10" v-model="chainSelectedOptions" placeholder="请选择">
           <el-option
               v-for="item in chainOptions"
               :key="item.value"
@@ -19,7 +19,7 @@
         </el-select>
 
         <el-cascader
-            style="margin-left: 20px;"
+            class="mr10"
             size="large"
             :options="addrOptions"
             v-model="addrSelectedOptions"
@@ -28,68 +28,16 @@
         >
         </el-cascader>
 
-        <el-input placeholder="请输入检索关键词" v-model="keyInput"  @change="updateKeywords" style="width:300px;margin-left: 20px">
+        <el-input placeholder="请输入检索关键词" v-model="keyInput"  @change="updateKeywords" class="mr10" style="width:300px;">
           <i slot="suffix" class="el-input__icon el-icon-search"></i>
         </el-input>
 
-        <el-link style="margin-left: 20px;" :href="neo4jUrl" target="_blank">
+        <el-link class="mr10" :href="neo4jUrl" target="_blank">
           <el-button type="primary" icon="el-icon-share">知识图谱</el-button>
         </el-link>
       </div>
     </div>
   </div>
-
-
-
-
-<!--  <el-row>-->
-<!--    <el-col :span="6">-->
-
-<!--      <el-image style="height: 80px;width:80px;float: left"-->
-<!--                :src="imgurl"></el-image>-->
-<!--      <div style="padding-left: 100px;">-->
-
-<!--        <el-select v-model="chainSelectedOptions" placeholder="请选择">-->
-<!--          <el-option-->
-<!--              v-for="item in chainOptions"-->
-<!--              :key="item.value"-->
-<!--              :label="item.label"-->
-<!--              :value="item.value"-->
-<!--              @change="handleChainChange">-->
-<!--          </el-option>-->
-<!--        </el-select>-->
-
-<!--        <hr/>-->
-
-<!--        <span style="font-size: 10px">产业数据库</span>-->
-
-<!--      </div>-->
-<!--    </el-col>-->
-<!--    <el-col :span="12" style="float: left">-->
-
-<!--      <el-col :span="6">-->
-<!--        <el-cascader-->
-<!--            size="large"-->
-<!--            :options="addrOptions"-->
-<!--            v-model="addrSelectedOptions"-->
-<!--            @change="handleAddrChange"-->
-<!--        >-->
-<!--        </el-cascader>-->
-<!--      </el-col>-->
-
-<!--      <el-col :span="6">-->
-<!--        <el-input placeholder="请输入检索关键词" v-model="keyInput"  @change="updateKeywords" style="width: 100%">-->
-<!--          &lt;!&ndash;          <el-button slot="suffix" icon="el-icon-search"></el-button>&ndash;&gt;-->
-<!--        </el-input>-->
-<!--      </el-col>-->
-<!--    </el-col>-->
-
-<!--    <el-col :span="6">-->
-<!--      <el-link :href="neo4jUrl" target="_blank">-->
-<!--        <el-button type="primary" icon="el-icon-share">知识图谱</el-button>-->
-<!--      </el-link>-->
-<!--    </el-col>-->
-<!--  </el-row>-->
 </template>
 
 <script>
@@ -157,55 +105,20 @@ export default {
   font-size: 22px;
   color: #fff;
 }
-.collapse-btn {
-  float: left;
-  padding: 0 21px;
-  cursor: pointer;
-  line-height: 70px;
-}
 .header .logo {
   float: left;
   width: 250px;
   line-height: 70px;
 }
-.header-right {
-  float: right;
-  padding-right: 50px;
-}
+
 .header-user-con {
   display: flex;
   height: 70px;
   align-items: center;
 }
-.btn-fullscreen {
-  transform: rotate(45deg);
-  margin-right: 5px;
-  font-size: 24px;
-}
-.btn-bell,
-.btn-fullscreen {
-  position: relative;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  border-radius: 15px;
-  cursor: pointer;
-}
-.btn-bell-badge {
-  position: absolute;
-  right: 0;
-  top: -2px;
-  width: 8px;
-  height: 8px;
-  border-radius: 4px;
-  background: #f56c6c;
-  color: #fff;
-}
+
 .btn-bell .el-icon-bell {
   color: #fff;
-}
-.user-name {
-  margin-left: 10px;
 }
 .user-avator {
   margin-left: 20px;
@@ -216,11 +129,7 @@ export default {
   height: 40px;
   border-radius: 50%;
 }
-.el-dropdown-link {
-  color: #fff;
-  cursor: pointer;
-}
-.el-dropdown-menu__item {
-  text-align: center;
+.mr10 {
+  margin-left: 10px;
 }
 </style>
