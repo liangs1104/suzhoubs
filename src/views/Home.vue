@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 500px; border: 1px solid #eee">
+  <el-container>
     <el-header  style="height: 80px;background-color: rgb(238, 241, 246);padding: 0;">
       <home-header></home-header>
     </el-header>
