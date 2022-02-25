@@ -1,6 +1,5 @@
 <template>
   <div class="sidebar">
-    <!--  <p v-if="storeChainname" style="font-size: 16px;font-weight: 700;">{{ storeChainname }}</p>-->
     <el-aside style="">
       <el-table
           :data="tableData"
@@ -28,25 +27,32 @@
 <script>
 
 // @ is an alias to /src
+import {mapState} from "vuex";
+
 export default {
   name: 'HomeAside',
   data() {
     return {
-      storeChainname: this.$store.state.chainname,
-      tableData: this.$store.state.initAsideTableData,
+      // storeChainname: this.$store.state.chainname,
+      tableData: this.$store.state.industryChain[this.$store.state.chainname],
       currentRow: null,
     }
   },
+  computed: {
+    ...mapState(["enterpriseList"])
+  },
+  watch:{
+    enterpriseList(){
+      this.getTableData(this.$store.state.industryChain[this.$store.state.chainname])
+    }
+  },
   mounted() {
-    this.getTableData()
   },
   methods: {
-    getTableData() {
+    getTableData(industryChain) {
       var nodeCounts = {}
       var enterpriseList = this.$store.state.enterpriseList
-      console.log(enterpriseList)
       for (let i in enterpriseList) {
-        console.log(enterpriseList[i])
         var nodes = enterpriseList[i].nodes.trim().split(/[ ]+/)
         for (let j in nodes) {
           if (nodes[j] !== "") {
@@ -54,10 +60,8 @@ export default {
           }
         }
       }
-      console.log(nodeCounts)
 
-      var tableData = this.$store.state.initAsideTableData
-      console.log(tableData)
+      var tableData = industryChain
       for (let i in tableData) {
         tableData[i].count = nodeCounts[tableData[i].nodeName] || 0
         // if (tableData[i].count === undefined) {
@@ -66,6 +70,7 @@ export default {
         if (tableData[i].children) {
           for (let j in tableData[i].children) {
             tableData[i].children[j].count = nodeCounts[tableData[i].children[j].nodeName] || 0
+            tableData[i].count = tableData[i].count + tableData[i].children[j].count
             // if (tableData[i].children[j].count === undefined) {
             //   tableData[i].children[j].count = 0
             // }
@@ -73,7 +78,6 @@ export default {
         }
       }
       this.tableData = tableData
-      console.log("产业链:", tableData)
     },
     handleCurrentChange(row) {
       console.log("产业链节点:" + row.nodeName)

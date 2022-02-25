@@ -5,16 +5,15 @@
       <div class="header-user-con">
 
         <div class="user-avator">
-          <img :src="imgurl" />
+          <img :src="imgurl"/>
         </div>
 
-        <el-select class="mr10" v-model="chainSelectedOptions" placeholder="请选择">
+        <el-select class="mr10" v-model="chainSelectedOptions" @change="handleChainChange">
           <el-option
               v-for="item in chainOptions"
               :key="item.value"
               :label="item.label"
-              :value="item.value"
-              @change="handleChainChange">
+              :value="item.value">
           </el-option>
         </el-select>
 
@@ -28,7 +27,7 @@
         >
         </el-cascader>
 
-        <el-input placeholder="请输入检索关键词" v-model="keyInput"  @change="updateKeywords" class="mr10" style="width:300px;">
+        <el-input placeholder="请输入检索关键词" v-model="keyInput" @change="updateKeywords" class="mr10" style="width:300px;">
           <i slot="suffix" class="el-input__icon el-icon-search"></i>
         </el-input>
 
@@ -43,13 +42,15 @@
 <script>
 import {provinceAndCityDataPlus, CodeToText} from "element-china-area-data";
 import store from "../store"
+import {mapState} from "vuex";
 
 export default {
   name: "HomeHeader",
   data() {
     return {
       imgurl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-      chainOptions: [{
+      chainOptions: [
+          {
         value: '生物医药',
         label: '生物医药'
       }, {
@@ -59,40 +60,89 @@ export default {
         value: '集成电路',
         label: '集成电路'
       }],
-      chainSelectedOptions:"生物医药",
+      chainSelectedOptions: "生物医药",
       addrOptions: provinceAndCityDataPlus,
       addrSelectedOptions: [],
       keyInput: '',
       neo4jUrl: "http://139.224.233.19:7474/browser/"
     }
   },
-  mounted() {
+  computed: {
+    ...mapState(["chainname", "provincename","cityname","keywords"])
+  },
+  watch:{
+    chainname(){
+      this.$store.commit('initLOADING', true)
+      this.$store.dispatch(
+          'getEnterpriseList',
+          {
+            chainname: this.$store.state.chainname,
+            provincename: this.$store.state.provincename,
+            cityname: this.$store.state.cityname,
+            keywords: this.$store.state.keywords
+          }
+      )
+    },
+    provincename(){
+      this.$store.commit('initLOADING', true)
+      this.$store.dispatch(
+          'getEnterpriseList',
+          {
+            chainname: this.$store.state.chainname,
+            provincename: this.$store.state.provincename,
+            cityname: this.$store.state.cityname,
+            keywords: this.$store.state.keywords
+          }
+      )
+    },
+    cityname(){
+      this.$store.commit('initLOADING', true)
+      this.$store.dispatch(
+          'getEnterpriseList',
+          {
+            chainname: this.$store.state.chainname,
+            provincename: this.$store.state.provincename,
+            cityname: this.$store.state.cityname,
+            keywords: this.$store.state.keywords
+          }
+      )
+    },
+    keywords(){
+      this.$store.commit('initLOADING', true)
+      this.$store.dispatch(
+          'getEnterpriseList',
+          {
+            chainname: this.$store.state.chainname,
+            provincename: this.$store.state.provincename,
+            cityname: this.$store.state.cityname,
+            keywords: this.$store.state.keywords
+          }
+      )
+    },
   },
   methods: {
     handleChainChange(value) {
-      console.log(value)
       store.state.chainname = value
       console.log("产业链选择:", store.state.chainname)
     },
     handleAddrChange(value) {
-      store.state.provincename,store.state.cityname = "",""
+      store.state.provincename, store.state.cityname = "", ""
       if (value[0] !== "") {
         store.state.provincename = CodeToText[value[0]]
       }
       if (value[1] !== "" && value[1] !== undefined) {
         store.state.cityname = CodeToText[value[1]]
-        if(CodeToText[value[1]] === "市辖区"){
+        if (CodeToText[value[1]] === "市辖区") {
           store.state.cityname = ""
         }
       }
-
       console.log("省 市:", store.state.provincename, store.state.cityname)
 
     },
     updateKeywords() {
       store.state.keywords = this.keyInput
-      console.log("关键词:",store.state.keywords)
-    }
+      console.log("关键词:", store.state.keywords)
+    },
   }
 }
 </script>
@@ -105,6 +155,7 @@ export default {
   font-size: 22px;
   color: #fff;
 }
+
 .header .logo {
   float: left;
   width: 250px;
@@ -120,15 +171,18 @@ export default {
 .btn-bell .el-icon-bell {
   color: #fff;
 }
+
 .user-avator {
   margin-left: 20px;
 }
+
 .user-avator img {
   display: block;
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
+
 .mr10 {
   margin-left: 10px;
 }
