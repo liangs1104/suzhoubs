@@ -1,13 +1,13 @@
 <template>
   <div>
-<!--    <el-button @click="getEnterpriseList"></el-button>-->
+<!--    <el-button @click="processEnterpriseList"></el-button>-->
     <el-table
         v-loading="loading"
         :data="tableData"
         style="width: 100%"
         :default-sort="{prop: 'Num', order: 'descending'}"
         highlight-current-row
-        @current-change="handleCurrentChange"
+        @current-change="getDetail"
     >
       <el-table-column
           type="index"
@@ -77,12 +77,47 @@ export default {
   mounted: function () {
   },
   computed: {
-    ...mapState(["enterpriseList","LOADING"])
+    ...mapState(["enterpriseList","LOADING","nodename"])
   },
   watch:{
     enterpriseList(){
-      var preTableData = this.$store.state.enterpriseList
-      for (let i = 0; i < preTableData.length; i++) {
+      this.processEnterpriseList()
+    },
+    LOADING (){
+      this.loading = this.$store.state.LOADING
+    },
+    nodename(){
+      this.processEnterpriseList()
+    }
+  },
+  methods: {
+    getDetail(val) {
+      this.currentRow = val;
+      console.log(val.enterprisename);
+      let routeUrl = this.$router.resolve({name: 'detail', params: {enterprisename: val.enterprisename.trim()}});
+      window.open(routeUrl.href, '_blank')
+    },
+    processEnterpriseList() {
+      let preTableData =JSON.parse(JSON.stringify(this.$store.state.enterpriseList))//浅拷贝
+      console.log(this.$store.state.nodename)
+      console.log('TableData:', preTableData)
+      if(this.$store.state.nodename){
+        preTableData = preTableData.filter(item =>{
+          // console.log(item.nodes)
+          // console.log(item.nodes.indexOf(this.$store.state.nodename))
+          return item.nodes.indexOf(this.$store.state.nodename) >-1
+        })
+        // for(let i in preTableData){
+        //   console.log(preTableData[i].nodes)
+        //   console.log(preTableData[i].nodes.indexOf(this.$store.state.nodename))
+        //   preTableData[i] = preTableData[i]
+        //   if(preTableData[i].nodes.indexOf(this.$store.state.nodename) === -1){
+        //     preTableData.splice(parseInt(i),1)
+        //   }
+        // }
+      }
+
+      for (let i in preTableData) {
         preTableData[i].words = preTableData[i].words.trim().split(/[ ]+/).slice(0, 3).join(", ")+", ..."
         preTableData[i].nodes = preTableData[i].nodes.trim().split(/[ ]+/).slice(0, 3).join(", ")+", ..."
         // preTableData[i].capital = parseFloat(preTableData[i].capital).toFixed(2) + " "+preTableData[i].capitalcurrency
@@ -91,69 +126,8 @@ export default {
       }
       console.log('TableData:', preTableData)
       this.tableData = preTableData
-      this.$store.commit('initLOADING', false)
+      this.$store.commit('SetLOADING', false)
     },
-    LOADING (){
-      this.loading = this.$store.state.LOADING
-    }
-  },
-  methods: {
-    handleCurrentChange(val) {
-      this.currentRow = val;
-      console.log(val.enterprisename);
-      let routeUrl = this.$router.resolve({name: 'detail', params: {enterprisename: val.enterprisename.trim()}});
-      window.open(routeUrl.href, '_blank')
-    },
-    // getEnterpriseList() {
-    //   //   axios({
-    //   //     method: "get",
-    //   //     url: "http://139.224.233.19:50000/biologicalmedicine/getEnterpriseList",
-    //   //     params: {
-    //   //       chainname: store.state.chainname,
-    //   //       provincename: store.state.provincename,
-    //   //       cityname: store.state.cityname,
-    //   //       keywords: store.state.keywords
-    //   //     },
-    //   //     timeout:60000
-    //   //   })
-    //   //       .then(res => {
-    //   //         store.state.enterpriseList = res.data
-    //   //         console.log("enterpriseList:" + res.data[0])
-    //   //         var preTableData = res.data
-    //   //         for(let i=0; i< preTableData.length;i++){
-    //   //           preTableData[i].words = preTableData[i].words.trim().split(/[ ]+/).slice(0,4).join(",")
-    //   //         }
-    //   //         this.tableData = preTableData
-    //   //       })
-    //   //       .catch(error => console.log(error))
-    //   // },
-    //   this.$store.dispatch(
-    //       'getEnterpriseList',
-    //       {
-    //         chainname: this.$store.state.chainname,
-    //         provincename: this.$store.state.provincename,
-    //         cityname: this.$store.state.cityname,
-    //         keywords: this.$store.state.keywords
-    //       }
-    //   )
-    //
-    //   this.loading =false
-    //
-    //   var preTableData = this.$store.state.enterpriseList
-    //   console.log('preTableData:', preTableData)
-    //
-    //   for (let i = 0; i < preTableData.length; i++) {
-    //
-    //     preTableData[i].words = preTableData[i].words.trim().split(/[ ]+/).slice(0, 3).join(" ")
-    //
-    //     preTableData[i].capital = parseFloat(preTableData[i].capital).toFixed(2) + " "+preTableData[i].capitalcurrency
-    //
-    //     preTableData[i].establishdate = preTableData[i].establishdate.slice(0,10)
-    //
-    //   }
-    //
-    //   this.tableData = preTableData
-    // },
   }
 }
 </script>

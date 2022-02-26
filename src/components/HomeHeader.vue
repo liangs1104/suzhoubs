@@ -27,7 +27,7 @@
         >
         </el-cascader>
 
-        <el-input placeholder="请输入检索关键词" v-model="keyInput" @change="updateKeywords" class="mr10" style="width:300px;">
+        <el-input placeholder="请输入检索关键词" v-model="keyInput" @change="handleKeywordsChange" class="mr10" style="width:300px;">
           <i slot="suffix" class="el-input__icon el-icon-search"></i>
         </el-input>
 
@@ -41,7 +41,6 @@
 
 <script>
 import {provinceAndCityDataPlus, CodeToText} from "element-china-area-data";
-import store from "../store"
 import {mapState} from "vuex";
 
 export default {
@@ -72,77 +71,55 @@ export default {
   },
   watch:{
     chainname(){
-      this.$store.commit('initLOADING', true)
-      this.$store.dispatch(
-          'getEnterpriseList',
-          {
-            chainname: this.$store.state.chainname,
-            provincename: this.$store.state.provincename,
-            cityname: this.$store.state.cityname,
-            keywords: this.$store.state.keywords
-          }
-      )
+      this.getEnterpriseList()
     },
     provincename(){
-      this.$store.commit('initLOADING', true)
-      this.$store.dispatch(
-          'getEnterpriseList',
-          {
-            chainname: this.$store.state.chainname,
-            provincename: this.$store.state.provincename,
-            cityname: this.$store.state.cityname,
-            keywords: this.$store.state.keywords
-          }
-      )
+      this.getEnterpriseList()
     },
     cityname(){
-      this.$store.commit('initLOADING', true)
-      this.$store.dispatch(
-          'getEnterpriseList',
-          {
-            chainname: this.$store.state.chainname,
-            provincename: this.$store.state.provincename,
-            cityname: this.$store.state.cityname,
-            keywords: this.$store.state.keywords
-          }
-      )
+      this.getEnterpriseList()
     },
     keywords(){
-      this.$store.commit('initLOADING', true)
-      this.$store.dispatch(
-          'getEnterpriseList',
-          {
-            chainname: this.$store.state.chainname,
-            provincename: this.$store.state.provincename,
-            cityname: this.$store.state.cityname,
-            keywords: this.$store.state.keywords
-          }
-      )
+      this.getEnterpriseList()
     },
   },
   methods: {
     handleChainChange(value) {
-      store.state.chainname = value
-      console.log("产业链选择:", store.state.chainname)
+      this.$store.commit('Setchainname',value)
+      console.log("产业链选择:", value)
     },
     handleAddrChange(value) {
-      store.state.provincename, store.state.cityname = "", ""
+      let provincename =""
+      let cityname = ""
       if (value[0] !== "") {
-        store.state.provincename = CodeToText[value[0]]
+        provincename = CodeToText[value[0]]
       }
       if (value[1] !== "" && value[1] !== undefined) {
-        store.state.cityname = CodeToText[value[1]]
+        cityname = CodeToText[value[1]]
         if (CodeToText[value[1]] === "市辖区") {
-          store.state.cityname = ""
+          cityname = ""
         }
       }
-      console.log("省 市:", store.state.provincename, store.state.cityname)
-
+      this.$store.commit('Setprovincename',provincename)
+      this.$store.commit('Setcityname',cityname)
+      console.log("省 市:", provincename, cityname)
     },
-    updateKeywords() {
-      store.state.keywords = this.keyInput
-      console.log("关键词:", store.state.keywords)
+    handleKeywordsChange() {
+      this.$store.commit('Setkeywords',this.keyInput)
+      console.log("关键词:", this.keyInput)
     },
+    getEnterpriseList(){
+      this.$store.commit('SetLOADING', true)
+      this.$store.dispatch(
+          'getEnterpriseList',
+          {
+            chainname: this.$store.state.chainname,
+            provincename: this.$store.state.provincename,
+            cityname: this.$store.state.cityname,
+            keywords: this.$store.state.keywords
+          }
+      )
+    }
   }
 }
 </script>

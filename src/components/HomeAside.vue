@@ -7,7 +7,7 @@
           row-key="id"
           default-expand-all
           highlight-current-row
-          @current-change="handleCurrentChange"
+          @current-change="handleNodenameChange"
           :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
         <el-table-column
             prop="nodeName"
@@ -43,13 +43,13 @@ export default {
   },
   watch:{
     enterpriseList(){
-      this.getTableData(this.$store.state.industryChain[this.$store.state.chainname])
+      this.getIndustryChainCount(this.$store.state.industryChain[this.$store.state.chainname])
     }
   },
   mounted() {
   },
   methods: {
-    getTableData(industryChain) {
+    getIndustryChainCount(industryChain) {
       var nodeCounts = {}
       var enterpriseList = this.$store.state.enterpriseList
       for (let i in enterpriseList) {
@@ -60,34 +60,36 @@ export default {
           }
         }
       }
-
       var tableData = industryChain
       for (let i in tableData) {
         tableData[i].count = nodeCounts[tableData[i].nodeName] || 0
-        // if (tableData[i].count === undefined) {
-        //   tableData[i].count = 0
-        // }
         if (tableData[i].children) {
           for (let j in tableData[i].children) {
             tableData[i].children[j].count = nodeCounts[tableData[i].children[j].nodeName] || 0
             tableData[i].count = tableData[i].count + tableData[i].children[j].count
-            // if (tableData[i].children[j].count === undefined) {
-            //   tableData[i].children[j].count = 0
-            // }
           }
         }
       }
       this.tableData = tableData
     },
-    handleCurrentChange(row) {
-      console.log("产业链节点:" + row.nodeName)
+    handleNodenameChange(row) {
       this.currentRow = row;
 
+      // if(this.$store.state.industryChain){
+      //   let levels = row.id.split("-")
+      //   if(levels.length>0){
+      //     levels[i] = this.$store.state.industryChain[levels[0]]
+      //   }
+      //
+      //
+      // }
+      console.log("产业链节点:" + row.nodeName)
+      this.$store.commit('Setnodename',row.nodeName)
     },
 // :cell-style="cellStyle"
-    // cellStyle(){
-    //   return 'background-color: #242f42;color:#bfcbd9'
-    // }
+//     cellStyle(){
+//       return 'background-color: #242f42;color:#bfcbd9'
+//     }
   },
 }
 </script>
@@ -108,5 +110,8 @@ export default {
 .sidebar > table {
   height: 100%;
 }
+/*.el-table__row:not([class*='el-table__row--level-']) > td:first-child {*/
+/*  padding-left: 24px;*/
+/*}*/
 
 </style>
