@@ -689,7 +689,8 @@ const store = new Vuex.Store({
                     }
                 ]
         },
-        LOADING: true
+        LOADING: true,
+        limitLength:100//文本长度限制
     },
     getters: {},
     mutations: {
@@ -713,7 +714,8 @@ const store = new Vuex.Store({
         },
         SetLOADING(state, data) {
             state.LOADING = data
-        }
+        },
+
     },
     actions: {
         getEnterpriseList: (state, params) => {

@@ -7,7 +7,7 @@
       <div class="content">
         <el-container>
           <el-main>
-            <el-descriptions class="margin-top" :title="title" border :data="baseInfo" :column="1" v-if="baseInfo">
+            <el-descriptions class="margin-top" :title="$route.params.enterprisename" border :data="baseInfo" :column="1" v-if="baseInfo">
               <el-descriptions-item label="关键词">{{ baseInfo.words }}</el-descriptions-item>
               <el-descriptions-item label="产业节点">{{ baseInfo.nodes }}</el-descriptions-item>
               <el-descriptions-item label="成立时间">{{ baseInfo.establishdate }}</el-descriptions-item>
@@ -32,13 +32,16 @@
             <el-divider></el-divider>
             <p>专利信息</p>
             <el-table
-                :data="patentInfo"
+                :data="patentInfoPage"
                 :cell-class-name="tableCellClassName"
                 @cell-click="clickContent"
                 style="width: 100%">
               <el-table-column
                   type="index"
                   label="序号">
+                <template scope="scope">
+                  <span>{{(currentPage - 1) * pageSize + scope.$index + 1}}</span>
+                </template>
               </el-table-column>
               <el-table-column
                   prop="专利名称"
@@ -61,11 +64,21 @@
                   :formatter="stateFormat">
               </el-table-column>
             </el-table>
-
+            <div class="block" v-if="patentInfo.length >10">
+              <el-pagination
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                  :current-page="currentPage"
+                  :page-sizes="[10, 20, 30, 40]"
+                  :page-size="pageSize"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="patentInfo.length">
+              </el-pagination>
+            </div>
             <el-divider></el-divider>
 
             <el-descriptions class="margin-top" title="百科信息" :data="baikeInfo" v-if="baikeInfo" :column="3" border>
-              <el-descriptions-item label="百科信息详细">{{ baikeInfo['百科信息详细'] }}</el-descriptions-item>
+              <el-descriptions-item label="百科信息详细">{{ baikeInfo['百科信息详细']}}</el-descriptions-item>
               <!--          <el-descriptions-item v-for="(value, key) in businessInfo" :label="key" :key="value">{{ value }}</el-descriptions-item>-->
             </el-descriptions>
 
@@ -157,16 +170,18 @@ export default {
   name: "Detail",
   data() {
     return {
-      title: this.$route.params.enterprisename,
-      contentLength: 100,//表格文本长度限制
       baseInfo: [],
 
       businessInfo: [],
       patentInfo: [],
-      baikeInfo: [],
+      patentInfoPage:[],
+      baikeInfo: {},
       newsInfo: [],
       tenderInfo: [],
       awardTenderInfo: [],
+
+      pageSize:10,//一页包含条数
+      currentPage: 1,//当前页码
     }
   },
   components: {
@@ -218,6 +233,9 @@ export default {
             this.processPatentInfo(this.patentInfo, 10)
 
             this.baikeInfo = enterpriseInfo['百科信息'][0]
+            if(!this.baikeInfo){
+              this.baikeInfo = {'百科信息详细':'暂无数据'}
+            }
 
             this.newsInfo = enterpriseInfo['新闻信息']
             this.addContentLimitFlag(this.newsInfo)
@@ -238,8 +256,10 @@ export default {
     processPatentInfo(patentInfo, limit) {
       for (let i in patentInfo) {
         patentInfo[i]["专利关键词"] = utils.limitNum(patentInfo[i]["专利关键词"], limit)
-        patentInfo[i].flag = true
       }
+      this.currentPage = 1
+      this.patentInfoPage = patentInfo.slice(0,this.pageSize)
+      this.addContentLimitFlag(this.patentInfoPage)
     },
     addContentLimitFlag(info){
       for(let i in info){
@@ -249,8 +269,8 @@ export default {
     stateFormat(row, column, cellValue) {
       if (row.flag) {
         if (!cellValue) return '';
-        if (cellValue.length > this.contentLength) {   // 超过contentLength长度的内容隐藏
-          return cellValue.slice(0, this.contentLength) + '...';
+        if (cellValue.length > this.$store.state.limitLength) {   // 超过长度的内容隐藏
+          return cellValue.slice(0, this.$store.state.limitLength) + '  ...';
         }
         return cellValue;
       } else {
@@ -265,8 +285,8 @@ export default {
     clickContent(row, column) {
       if (column.label === "专利摘要") {  // 只有点击数据内容列时才会展开
         row.flag = !row.flag;  // 这个参数是当时将数据存储到表格中时特意加上控制表格的展开和省略的
-        this.$set(this.patentInfo,row.index,row)
-        console.log(this.patentInfo,row, column)
+        this.$set(this.patentInfoPage,row.index,row)
+        console.log(this.patentInfoPage,row, column)
       }
       if (column.label === "新闻摘要") {
         row.flag = !row.flag;
@@ -283,6 +303,17 @@ export default {
         this.$set(this.awardTenderInfo,row.index,row)
         console.log(this.awardTenderInfo,row, column)
       }
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pageSize = val
+      this.patentInfoPage = this.patentInfo.slice(0,this.pageSize)
+      this.currentPage = 1
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val
+      this.patentInfoPage = this.patentInfo.slice((val-1)*this.pageSize,val*this.pageSize)
     }
   },
 
