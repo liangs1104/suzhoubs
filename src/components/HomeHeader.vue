@@ -61,7 +61,7 @@ export default {
       }],
       chainSelectedOptions: "生物医药",
       addrOptions: provinceAndCityDataPlus,
-      addrSelectedOptions: [],
+      addrSelectedOptions: ["110000",""],
       keyInput: '',
       neo4jUrl: "http://139.224.233.19:7474/browser/"
     }

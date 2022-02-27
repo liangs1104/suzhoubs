@@ -41,8 +41,8 @@ export default {
   computed: {
     ...mapState(["enterpriseList"])
   },
-  watch:{
-    enterpriseList(){
+  watch: {
+    enterpriseList() {
       this.getIndustryChainCount(this.$store.state.industryChain[this.$store.state.chainname])
     }
   },
@@ -55,36 +55,46 @@ export default {
       for (let i in enterpriseList) {
         var nodes = enterpriseList[i].nodes.trim().split(/[ ]+/)
         for (let j in nodes) {
-          if (nodes[j] !== "") {
-            nodeCounts[nodes[j]] = (nodeCounts[nodes[j]] + 1) || 1;
+          if (!nodeCounts[nodes[j]]) {
+            nodeCounts[nodes[j]] = new Set()
           }
+
+          nodeCounts[nodes[j]].add(i)
         }
       }
-      var tableData = industryChain
-      for (let i in tableData) {
-        tableData[i].count = nodeCounts[tableData[i].nodeName] || 0
-        if (tableData[i].children) {
-          for (let j in tableData[i].children) {
-            tableData[i].children[j].count = nodeCounts[tableData[i].children[j].nodeName] || 0
-            tableData[i].count = tableData[i].count + tableData[i].children[j].count
+      for (let i in industryChain) {
+        if(!nodeCounts[industryChain[i].nodeName]){
+          nodeCounts[industryChain[i].nodeName] = new Set()
+        }
+
+        if (industryChain[i].children) {
+          for (let j in industryChain[i].children) {
+            industryChain[i].children[j].count = 0
+            if (nodeCounts[industryChain[i].children[j].nodeName]) {
+              industryChain[i].children[j].count = nodeCounts[industryChain[i].children[j].nodeName].size
+            }
+
+            if(nodeCounts[industryChain[i].children[j].nodeName]){
+              nodeCounts[industryChain[i].nodeName] = new Set([...nodeCounts[industryChain[i].children[j].nodeName], ...nodeCounts[industryChain[i].nodeName]])
+            }
           }
         }
+
+        industryChain[i].count = 0
+        if (nodeCounts[industryChain[i].nodeName]) {
+          industryChain[i].count = nodeCounts[industryChain[i].nodeName].size
+        }
       }
-      this.tableData = tableData
+      this.tableData = industryChain
     },
     handleNodenameChange(row) {
       this.currentRow = row;
-
-      // if(this.$store.state.industryChain){
-      //   let levels = row.id.split("-")
-      //   if(levels.length>0){
-      //     levels[i] = this.$store.state.industryChain[levels[0]]
-      //   }
-      //
-      //
-      // }
-      console.log("产业链节点:" + row.nodeName)
-      this.$store.commit('Setnodename',row.nodeName)
+      let nodenames = [row.nodeName]
+      for (let i in row.children) {
+        nodenames.push(row.children[i].nodeName)
+      }
+      console.log("产业链节点:" + nodenames)
+      this.$store.commit('Setnodenames', nodenames)
     },
 // :cell-style="cellStyle"
 //     cellStyle(){
@@ -110,6 +120,7 @@ export default {
 .sidebar > table {
   height: 100%;
 }
+
 /*.el-table__row:not([class*='el-table__row--level-']) > td:first-child {*/
 /*  padding-left: 24px;*/
 /*}*/

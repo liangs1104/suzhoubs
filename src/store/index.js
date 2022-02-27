@@ -10,43 +10,11 @@ axios.defaults.timeout = 120000
 const store = new Vuex.Store({
     state: {
         chainname: "生物医药",
-        provincename: "天津市",
+        provincename: "北京市",
         cityname: "",
         keywords: "",
-        nodename:"",
+        nodenames:[],
         enterpriseList: [{}],
-        nodeNames: ["制药原材料", "基础化工材料",
-            "医用包材",
-            "药用辅料",
-            "大宗原料药", "维生素类",
-            "抗生素类",
-            "解热镇痛类",
-            "激素类",
-            "原料药", "特色原料药",
-            "药用辅助药",
-            "制药设备",
-            "传统中药", "中药材",
-            "中药饮片",
-            "中药", "中成药",
-            "化学药", "原料药",
-            "制剂", "抗感染药",
-            "心血管系统用药",
-            "血液和造血系统用药",
-            "抗肿瘤药",
-            "神经系统用药",
-            "呼吸系统用药",
-            "消化系统用药",
-            "免疫调节剂",
-            "皮肤及五官科药物",
-            "创新药",
-            "保健品",
-            "生物制药",
-            "疫苗", "一类疫苗",
-            "二类疫苗",
-            "诊断检测",
-            "医药流通",
-            "医疗废弃物处理",
-            "医疗废水处理"],
         industryChain: {
             "生物医药":
                 [
@@ -737,8 +705,8 @@ const store = new Vuex.Store({
         Setkeywords(state, newkeywords) {
             state.keywords = newkeywords
         },
-        Setnodename(state,data){
-            state.nodename = data
+        Setnodenames(state,data){
+            state.nodenames = data
         },
         SetenterpriseList(state, data) {
             state.enterpriseList = data
