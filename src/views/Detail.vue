@@ -159,7 +159,7 @@ export default {
     getEnterpriseInfo(keywords) {
       axios({
         method: "get",
-        url: "http://139.224.233.19:50000/biologicalmedicine/getEnterpriseList",
+        url: "../../biologicalmedicine/getEnterpriseList",
         params: {
           keywords: keywords
         },
@@ -177,7 +177,7 @@ export default {
     getEnterpriseInformation() {
       axios({
         method: "get",
-        url: "http://139.224.233.19:50000/biologicalmedicine/getEnterpriseInformation",
+        url: "../../biologicalmedicine/getEnterpriseInformation",
         params: {
           enterprisename: this.$route.params.enterprisename
         },
