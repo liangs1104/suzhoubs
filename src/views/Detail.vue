@@ -1,5 +1,5 @@
 <template>
-  <el-container >
+  <el-container>
     <el-header style="height: 80px;background-color: rgb(238, 241, 246);padding: 0;">
       <home-header></home-header>
     </el-header>
@@ -7,17 +7,18 @@
       <div class="content">
         <el-container>
           <el-main>
-            <el-descriptions class="margin-top" :title="title" border :data="baseInfo" :column="1" v-if="baseInfo" >
+            <el-descriptions class="margin-top" :title="title" border :data="baseInfo" :column="1" v-if="baseInfo">
               <el-descriptions-item label="关键词">{{ baseInfo.words }}</el-descriptions-item>
               <el-descriptions-item label="产业节点">{{ baseInfo.nodes }}</el-descriptions-item>
               <el-descriptions-item label="成立时间">{{ baseInfo.establishdate }}</el-descriptions-item>
-              <el-descriptions-item label="注册资本">{{ baseInfo.capital }}{{ baseInfo.capitalcurrency}}</el-descriptions-item>
+              <el-descriptions-item label="注册资本">{{ baseInfo.capital }}</el-descriptions-item>
               <el-descriptions-item label="注册地">{{ baseInfo.domicile }}</el-descriptions-item>
             </el-descriptions>
 
             <el-divider></el-divider>
 
-            <el-descriptions class="margin-top" title="工商信息" :data="businessInfo"  v-if="businessInfo" :column="3" border>
+            <el-descriptions class="margin-top" title="工商信息" :data="businessInfo" v-if="businessInfo" :column="3"
+                             border>
               <el-descriptions-item label="统一社会信用编码">{{ businessInfo['统一社会信用编码'] }}</el-descriptions-item>
               <el-descriptions-item label="负责人">{{ businessInfo['负责人'] }}</el-descriptions-item>
               <el-descriptions-item label="登记状态">{{ businessInfo['登记状态'] }}</el-descriptions-item>
@@ -32,6 +33,8 @@
             <p>专利信息</p>
             <el-table
                 :data="patentInfo"
+                :cell-class-name="tableCellClassName"
+                @cell-click="clickContent"
                 style="width: 100%">
               <el-table-column
                   type="index"
@@ -39,25 +42,29 @@
               </el-table-column>
               <el-table-column
                   prop="专利名称"
-                  label="专利名称">
+                  label="专利名称"
+                  min-width="25%">
               </el-table-column>
               <el-table-column
                   prop="专利关键词"
-                  label="专利关键词">
+                  label="专利关键词"
+                  min-width="25%">
               </el-table-column>
               <el-table-column
                   prop="专利申请日期"
-                  label="专利申请日期">
+                  label="专利申请日期"
+                  min-width="10%">
               </el-table-column>
               <el-table-column
                   prop="专利摘要"
-                  label="专利摘要" :formatter="stateFormat">
+                  label="专利摘要"
+                  :formatter="stateFormat">
               </el-table-column>
             </el-table>
 
             <el-divider></el-divider>
 
-            <el-descriptions class="margin-top" title="百科信息" :data="baikeInfo"  v-if="baikeInfo" :column="3" border>
+            <el-descriptions class="margin-top" title="百科信息" :data="baikeInfo" v-if="baikeInfo" :column="3" border>
               <el-descriptions-item label="百科信息详细">{{ baikeInfo['百科信息详细'] }}</el-descriptions-item>
               <!--          <el-descriptions-item v-for="(value, key) in businessInfo" :label="key" :key="value">{{ value }}</el-descriptions-item>-->
             </el-descriptions>
@@ -67,6 +74,8 @@
             <p>新闻信息</p>
             <el-table
                 :data="newsInfo"
+                :cell-class-name="tableCellClassName"
+                @cell-click="clickContent"
                 style="width: 100%">
               <el-table-column
                   type="index"
@@ -74,19 +83,23 @@
               </el-table-column>
               <el-table-column
                   prop="新闻标题"
-                  label="新闻标题">
+                  label="新闻标题"
+                  min-width="25%">
               </el-table-column>
               <el-table-column
                   prop="新闻摘要"
-                  label="新闻摘要">
+                  label="新闻摘要"
+                  :formatter="stateFormat">
               </el-table-column>
             </el-table>
 
             <el-divider></el-divider>
 
-            <p>投标信息</p>
+            <p>招标信息</p>
             <el-table
-                :data="tendeInfo"
+                :data="tenderInfo"
+                :cell-class-name="tableCellClassName"
+                @cell-click="clickContent"
                 style="width: 100%">
               <el-table-column
                   type="index"
@@ -94,11 +107,13 @@
               </el-table-column>
               <el-table-column
                   prop="标题"
-                  label="投标标题">
+                  label="招标标题"
+                  min-width="25%">
               </el-table-column>
               <el-table-column
                   prop="摘要"
-                  label="投标摘要">
+                  label="招标摘要"
+                  :formatter="stateFormat">
               </el-table-column>
             </el-table>
 
@@ -107,6 +122,8 @@
             <p>中标信息</p>
             <el-table
                 :data="awardTenderInfo"
+                :cell-class-name="tableCellClassName"
+                @cell-click="clickContent"
                 style="width: 100%">
               <el-table-column
                   type="index"
@@ -114,16 +131,18 @@
               </el-table-column>
               <el-table-column
                   prop="标题"
-                  label="中标标题">
+                  label="中标标题"
+                  min-width="25%">
               </el-table-column>
               <el-table-column
-                  prop="标题"
-                  label="中标标题">
+                  prop="摘要"
+                  label="中标摘要"
+                  :formatter="stateFormat">
               </el-table-column>
             </el-table>
           </el-main>
         </el-container>
-        </div>
+      </div>
     </div>
 
   </el-container>
@@ -132,20 +151,22 @@
 <script>
 import HomeHeader from '../components/HomeHeader'
 import axios from "axios";
+import utils from '../utils'
 
 export default {
   name: "Detail",
   data() {
     return {
       title: this.$route.params.enterprisename,
-      contentLength:10,
-      baseInfo:null,
-      businessInfo: null,
-      patentInfo: null,
-      baikeInfo:null,
-      newsInfo:null,
-      tendeInfo:null,
-      awardTenderInfo: null,
+      contentLength: 100,//表格文本长度限制
+      baseInfo: [],
+
+      businessInfo: [],
+      patentInfo: [],
+      baikeInfo: [],
+      newsInfo: [],
+      tenderInfo: [],
+      awardTenderInfo: [],
     }
   },
   components: {
@@ -162,17 +183,22 @@ export default {
         url: "../../biologicalmedicine/getEnterpriseList",
         params: {
           keywords: keywords
-        },
-        timeout:60000
+        }
       })
           .then(res => {
-            var baseInfo = res.data[0]
-            // baseInfo.words = baseInfo.words.trim()
-            baseInfo.capital = parseFloat(baseInfo.capital).toFixed(2) + " "+baseInfo.capitalcurrency
-            baseInfo.establishdate = baseInfo.establishdate.slice(0,10)
-            this.baseInfo= baseInfo
+            this.baseInfo = res.data[0]
+            this.processEnterpriseInfo(this.baseInfo, 20)
           })
           .catch(error => console.log(error))
+    },
+    processEnterpriseInfo(baseInfo, limit) {
+      baseInfo.words = utils.limitNum(baseInfo.words, limit)
+
+      baseInfo.nodes = utils.limitNum(baseInfo.nodes, limit)
+
+      baseInfo.capital = parseFloat(baseInfo.capital).toFixed(2) + " 万元"
+
+      baseInfo.establishdate = baseInfo.establishdate.slice(0, 10)
     },
     getEnterpriseInformation() {
       axios({
@@ -185,37 +211,87 @@ export default {
       })
           .then(res => {
             var enterpriseInfo = res.data
-            // console.log("getEnterpriseInformation:" + res.data)
             this.businessInfo = enterpriseInfo['工商信息'][0]
+            this.processBusinessInfo(this.businessInfo)
+
             this.patentInfo = enterpriseInfo['专利信息']
+            this.processPatentInfo(this.patentInfo, 10)
+
             this.baikeInfo = enterpriseInfo['百科信息'][0]
+
             this.newsInfo = enterpriseInfo['新闻信息']
-            this.tendeInfo = enterpriseInfo['招标信息']
+            this.addContentLimitFlag(this.newsInfo)
+
+            this.tenderInfo = enterpriseInfo['招标信息']
+            this.addContentLimitFlag(this.tenderInfo)
+
             this.awardTenderInfo = enterpriseInfo['中标信息']
+            this.addContentLimitFlag(this.awardTenderInfo)
+
           })
           .catch(error => console.log(error))
     },
-    stateFormat(row, column, cellValue){
-      // console.log(row);
-      // console.log(column);
-      // console.log(cellValue);
-      if(row.flag){
+    processBusinessInfo(businessInfo) {
+      businessInfo['成立时间'] = businessInfo['成立时间'].substr(0, 10)
+      businessInfo['注册资本'] = parseFloat(businessInfo['注册资本']).toFixed(2) + " 万元"
+    },
+    processPatentInfo(patentInfo, limit) {
+      for (let i in patentInfo) {
+        patentInfo[i]["专利关键词"] = utils.limitNum(patentInfo[i]["专利关键词"], limit)
+        patentInfo[i].flag = true
+      }
+    },
+    addContentLimitFlag(info){
+      for(let i in info){
+        info[i].flag = true
+      }
+    },
+    stateFormat(row, column, cellValue) {
+      if (row.flag) {
         if (!cellValue) return '';
         if (cellValue.length > this.contentLength) {   // 超过contentLength长度的内容隐藏
           return cellValue.slice(0, this.contentLength) + '...';
         }
         return cellValue;
-      }else{
+      } else {
         return cellValue;
       }
     },
+    tableCellClassName({row, column, rowIndex, columnIndex}){//注意这里是解构
+      //利用单元格的 className 的回调方法，给行列索引赋值
+      row.index=rowIndex;
+      column.index=columnIndex;
+    },
+    clickContent(row, column) {
+      if (column.label === "专利摘要") {  // 只有点击数据内容列时才会展开
+        row.flag = !row.flag;  // 这个参数是当时将数据存储到表格中时特意加上控制表格的展开和省略的
+        this.$set(this.patentInfo,row.index,row)
+        console.log(this.patentInfo,row, column)
+      }
+      if (column.label === "新闻摘要") {
+        row.flag = !row.flag;
+        this.$set(this.newsInfo,row.index,row)
+        console.log(this.newsInfo,row, column)
+      }
+      if (column.label === "招标摘要") {
+        row.flag = !row.flag;
+        this.$set(this.tenderInfo,row.index,row)
+        console.log(this.tenderInfo,row, column)
+      }
+      if (column.label === "中标摘要") {
+        row.flag = !row.flag;
+        this.$set(this.awardTenderInfo,row.index,row)
+        console.log(this.awardTenderInfo,row, column)
+      }
+    }
   },
 
 };
 </script>
 <style>
-p{
+p {
   font-size: 16px;
   font-weight: 700;
+  margin-bottom: 20px;
 }
 </style>

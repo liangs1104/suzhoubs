@@ -36,6 +36,7 @@
           sortable
           >
       </el-table-column>
+<!--      排序不对-->
       <el-table-column
           prop="capital"
           label="注册资本"
@@ -66,20 +67,21 @@
 
 <script>
 import {mapState} from 'vuex'
+import utils from '../utils'
 
 export default {
   name: 'HomeMain',
   data() {
     return {
-      preTableData:[],
-      tableData: [{}],
-      currentRow: null,
+      preTableData:[],//预处理后所有企业数据
+      tableData: [{}],//当前页数据
+      currentRow: null,//当前企业
       loading:true,
 
-      pageSize:10,
-      totalEnterpriseNum:0,
-      currentPage: 1,
-      startIndex:1
+      pageSize:10,//一页包含条数
+      totalEnterpriseNum:0,//企业总数
+      currentPage: 1,//当前页码
+      startIndex:1//当前页 数据序号从几开始
     }
   },
   async created() {
@@ -100,13 +102,13 @@ export default {
   },
   watch:{
     enterpriseList(){
-      this.processEnterpriseList()
+      this.processEnterpriseList(3)
     },
     LOADING (){
       this.loading = this.$store.state.LOADING
     },
     nodenames(){
-      this.processEnterpriseList()
+      this.processEnterpriseList(3)
     }
   },
   methods: {
@@ -116,8 +118,9 @@ export default {
       let routeUrl = this.$router.resolve({name: 'detail', params: {enterprisename: val.enterprisename.trim()}});
       window.open(routeUrl.href, '_blank')
     },
-    processEnterpriseList() {
+    processEnterpriseList(limit) {
       let preTableData =JSON.parse(JSON.stringify(this.$store.state.enterpriseList))//浅拷贝
+
       // console.log(this.$store.state.nodenames)
       // console.log('TableData:', preTableData)
       //产业链节点筛选
@@ -137,9 +140,12 @@ export default {
 
       //数据预处理
       for (let i in preTableData) {
-        preTableData[i].words = preTableData[i].words.trim().split(/[ ]+/).slice(0, 3).join(", ")+", ..."
-        preTableData[i].nodes = preTableData[i].nodes.trim().split(/[ ]+/).slice(0, 3).join(", ")+", ..."
+        preTableData[i].words = utils.limitNum(preTableData[i].words,limit)
+
+        preTableData[i].nodes = utils.limitNum(preTableData[i].nodes,limit)
+
         preTableData[i].capital = parseFloat(preTableData[i].capital).toFixed(2) + " 万元"
+
         preTableData[i].establishdate = preTableData[i].establishdate.slice(0,10)
       }
 
