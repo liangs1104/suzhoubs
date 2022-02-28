@@ -2,12 +2,14 @@
   <div class="sidebar">
     <el-aside style="">
       <el-table
+          ref="industryChain"
           :data="tableData"
           :header-cell-style="{background:'#eef1f6',color:'#606266'}"
           row-key="id"
           default-expand-all
           highlight-current-row
           @current-change="handleNodenameChange"
+          @row-click="nodenameClick"
           :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
         <el-table-column
             prop="nodeName"
@@ -36,6 +38,7 @@ export default {
       // storeChainname: this.$store.state.chainname,
       tableData: this.$store.state.industryChain[this.$store.state.chainname],
       currentRow: null,
+      clickFirst:true
     }
   },
   computed: {
@@ -88,13 +91,22 @@ export default {
       this.tableData = industryChain
     },
     handleNodenameChange(row) {
-      this.currentRow = row;
-      let nodenames = [row.nodeName]
-      for (let i in row.children) {
-        nodenames.push(row.children[i].nodeName)
+      this.currentRow = row
+      this.clickFirst = true
+    },
+    nodenameClick(row) {
+      if (!this.clickFirst) {
+        this.$refs.industryChain.setCurrentRow()  //如过重复选中，则取消选中
+        this.$store.commit('Setnodenames', [])
+      }else {
+        let nodenames = [row.nodeName]
+        for (let i in row.children) {
+          nodenames.push(row.children[i].nodeName)
+        }
+        this.$store.commit('Setnodenames', nodenames)
       }
-      console.log("产业链节点:" + nodenames)
-      this.$store.commit('Setnodenames', nodenames)
+      console.log("产业链节点:" + this.$store.state.nodenames)
+      this.clickFirst=!this.clickFirst
     },
 // :cell-style="cellStyle"
 //     cellStyle(){
