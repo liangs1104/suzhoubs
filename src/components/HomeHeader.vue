@@ -28,7 +28,7 @@
         </el-cascader>
 
         <el-input placeholder="请输入检索关键词" v-model="keyInput" @change="handleKeywordsChange" class="mr10" style="width:300px;">
-          <i slot="suffix" class="el-input__icon el-icon-search"></i>
+          <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
 
         <el-link class="mr10" :href="neo4jUrl" target="_blank">
