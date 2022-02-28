@@ -6,6 +6,9 @@ function limitNum(data,limit){
         }else {
             data = data.join(", ")
         }
+        if(data === "null"){
+            data = "无"
+        }
         return data
     }
     catch(err){

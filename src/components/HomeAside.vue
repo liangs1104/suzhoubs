@@ -1,10 +1,13 @@
 <template>
   <div class="sidebar">
-    <el-aside style="">
+    <el-aside style="width: 280px">
       <el-table
           ref="industryChain"
+          class="table"
           :data="tableData"
-          :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+          style="width: 100%"
+          :cell-style="{background: 'rgb(50, 65, 87)',color:'rgb(191, 203, 217)',border:'0px'}"
+          :header-cell-style="{background:'rgb(50, 65, 87) !important',color:'rgb(191, 203, 217)',borderTop:'1px solid #EBEEF5'}"
           row-key="id"
           default-expand-all
           highlight-current-row
@@ -13,13 +16,13 @@
           :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
         <el-table-column
             prop="nodeName"
-            label="产业链节点"
-            width="200px">
+            label="产业链节点">
         </el-table-column>
         <el-table-column
             prop="count"
             label="公司数量"
-            width="80px">
+            min-width="40%"
+            align="center">
         </el-table-column>
       </el-table>
     </el-aside>
@@ -38,7 +41,7 @@ export default {
       // storeChainname: this.$store.state.chainname,
       tableData: this.$store.state.industryChain[this.$store.state.chainname],
       currentRow: null,
-      clickFirst:true
+      clickFirst: true
     }
   },
   computed: {
@@ -66,7 +69,7 @@ export default {
         }
       }
       for (let i in industryChain) {
-        if(!nodeCounts[industryChain[i].nodeName]){
+        if (!nodeCounts[industryChain[i].nodeName]) {
           nodeCounts[industryChain[i].nodeName] = new Set()
         }
 
@@ -77,7 +80,7 @@ export default {
               industryChain[i].children[j].count = nodeCounts[industryChain[i].children[j].nodeName].size
             }
 
-            if(nodeCounts[industryChain[i].children[j].nodeName]){
+            if (nodeCounts[industryChain[i].children[j].nodeName]) {
               nodeCounts[industryChain[i].nodeName] = new Set([...nodeCounts[industryChain[i].children[j].nodeName], ...nodeCounts[industryChain[i].nodeName]])
             }
           }
@@ -98,7 +101,7 @@ export default {
       if (!this.clickFirst) {
         this.$refs.industryChain.setCurrentRow()  //如过重复选中，则取消选中
         this.$store.commit('Setnodenames', [])
-      }else {
+      } else {
         let nodenames = [row.nodeName]
         for (let i in row.children) {
           nodenames.push(row.children[i].nodeName)
@@ -106,12 +109,8 @@ export default {
         this.$store.commit('Setnodenames', nodenames)
       }
       console.log("产业链节点:" + this.$store.state.nodenames)
-      this.clickFirst=!this.clickFirst
+      this.clickFirst = !this.clickFirst
     },
-// :cell-style="cellStyle"
-//     cellStyle(){
-//       return 'background-color: #242f42;color:#bfcbd9'
-//     }
   },
 }
 </script>
@@ -132,9 +131,21 @@ export default {
 .sidebar > table {
   height: 100%;
 }
-
-/*.el-table__row:not([class*='el-table__row--level-']) > td:first-child {*/
-/*  padding-left: 24px;*/
-/*}*/
-
+/*选中效果*/
+/deep/ .el-table__body tr.current-row > td {
+  color: rgb(32, 160, 255) !important;
+  background-color: rgb(50, 65, 87) !important;
+}
+/*鼠标放置效果*/
+/deep/ .el-table__body tr:hover > td {
+  background-color: rgb(40, 52, 70) !important;
+}
+/*多级表格对齐*/
+/deep/ .el-table__row:not([class*='el-table__row--level-']) td:first-child {
+  padding-left: 24px;
+}
+/*下拉符号颜色*/
+/deep/ .el-table__expand-icon{
+  color:rgb(191, 203, 217);
+}
 </style>
