@@ -66,11 +66,13 @@
             </el-table>
             <div class="block" v-if="patentInfo.length >10">
               <el-pagination
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
+                  @size-change="handlePageSizeChange"
+                  @current-change="handleCurrentPageChange"
                   :current-page="currentPage"
                   :page-sizes="[10, 20, 30, 40]"
                   :page-size="pageSize"
+                  background
+                  style="text-align: center;"
                   layout="total, sizes, prev, pager, next, jumper"
                   :total="patentInfo.length">
               </el-pagination>
@@ -304,16 +306,17 @@ export default {
         console.log(this.awardTenderInfo,row, column)
       }
     },
-    handleSizeChange(val) {
+    handlePageSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.pageSize = val
       this.patentInfoPage = this.patentInfo.slice(0,this.pageSize)
       this.currentPage = 1
     },
-    handleCurrentChange(val) {
+    handleCurrentPageChange(val) {
       console.log(`当前页: ${val}`);
       this.currentPage = val
       this.patentInfoPage = this.patentInfo.slice((val-1)*this.pageSize,val*this.pageSize)
+      this.addContentLimitFlag(this.patentInfoPage)
     }
   },
 
