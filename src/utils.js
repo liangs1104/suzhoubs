@@ -1,4 +1,4 @@
-// import store from './store'
+import store from './store'
 /**
  * 关键词个数限制
  * @param {string} data 需要处理的关键词
@@ -8,6 +8,32 @@
 function limitNum(data, limit) {
     try {
         data = data.trim().split(/[ ]+/)
+        if ((store.state.keywords !== '' && data.join(",").indexOf(store.state.keywords) !== -1) || store.state.nodenames.length){
+            let temp = []
+            if(store.state.keywords !== '' && data.join(",").indexOf(store.state.keywords) !== -1){
+                data = data.filter(item => {
+                    if(item.indexOf(store.state.keywords) !== -1){
+                        temp.push(item)
+                        return false
+                    }
+                    return true
+                })
+            }
+            if(store.state.nodenames.length) {
+                data = data.filter(item => {
+                    let nodenames = store.state.nodenames
+                    for (let i in nodenames) {
+                        if (item.indexOf(nodenames[i]) > -1) {
+                            temp.push(item)
+                            return false
+                        }
+                    }
+                    return true
+                })
+            }
+            data = temp.concat(data)
+        }
+
         if (data.length > limit) {
             data = data.slice(0, limit).join(", ") + ", ..."
         } else {
@@ -17,7 +43,7 @@ function limitNum(data, limit) {
         //     data = data.slice(0, limit - 1).join(", ") + ", ..."
         //     limit = -1
         // }
-        if (data === "null") {
+        if (data === "null" || data === "" || data == null) {
             data = "无"
         }
         return data

@@ -180,8 +180,8 @@ export default {
     },
     highlightWord(val) {
       val = val + '';
-      if (val.indexOf(this.$store.state.keywords) !== -1 && this.$store.state.keywords !== '') {
-        return val.replace(this.$store.state.keywords, '<font color="#409EFF">' + this.$store.state.keywords + '</font>')
+      if (this.$store.state.keywords !== '' && val.indexOf(this.$store.state.keywords) !== -1) {
+        return val.replaceAll(this.$store.state.keywords, '<font color="#409EFF">' + this.$store.state.keywords + '</font>')
       } else {
         return val
       }
