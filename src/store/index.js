@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios"
-
+import utils from '../utils'
 Vue.use(Vuex)
 
 axios.defaults.baseURL = "http://139.224.233.19:50000"
@@ -727,6 +727,8 @@ const store = new Vuex.Store({
             })
                 .then(res => {
                     console.log("params:", params)
+                    res.data.sort(utils.compare('Num',null));
+                    console.log("enterpriseList:",res.data)
                     state.commit('SetenterpriseList', res.data)
                 })
                 .catch(error => console.log(error))

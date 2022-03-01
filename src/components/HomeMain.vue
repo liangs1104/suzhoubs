@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!--    <el-button @click="processEnterpriseList"></el-button>-->
     <el-table
         v-loading="loading"
-        :data="proEnterpriseListPage"
+        :data="proEnterpriseList.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)"
         style="width: 100%"
         :default-sort="{prop: 'Num', order: 'descending'}"
         highlight-current-row
-        @current-change="gotoDetail">
+        @current-change="gotoDetail"
+        @sort-change="sortChange">
       <el-table-column
           type="index"
           label="序号">
@@ -15,6 +15,14 @@
           <span>{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</span>
         </template>
       </el-table-column>
+<!--      <el-table-column-->
+<!--          prop="Num"-->
+<!--          label="相关度"-->
+<!--          min-width="20%">-->
+<!--        <template slot-scope="scope">-->
+<!--          <span class="col-cont" v-html=" highlightWord( scope.row.Num)"></span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column
           prop="enterprisename"
           label="企业名称">
@@ -39,17 +47,17 @@
       <el-table-column
           prop="establishdate"
           label="成立时间"
-          sortable
+          sortable="establishdate"
           min-width="30%">
         <template slot-scope="scope">
           <span class="col-cont" v-html=" highlightWord( scope.row.establishdate)"></span>
         </template>
       </el-table-column>
-      <!--      排序不对-->
       <el-table-column
           prop="capital"
           label="注册资本"
-          sortable
+          sortable="capital"
+          align="right"
           min-width="35%">
         <template slot-scope="scope">
           <span class="col-cont" v-html=" highlightWord( scope.row.capital)"></span>
@@ -70,6 +78,8 @@
           :current-page="currentPage"
           :page-sizes="[10, 20, 30, 40]"
           :page-size="pageSize"
+          background
+          style="text-align: center;"
           layout="total, sizes, prev, pager, next, jumper"
           :total="proEnterpriseList.length">
       </el-pagination>
@@ -88,7 +98,6 @@ export default {
   data() {
     return {
       proEnterpriseList: [],//预处理后所有企业数据
-      proEnterpriseListPage: [{}],//当前页数据
       currentRow: null,//当前企业
       loading: true,
 
@@ -156,20 +165,18 @@ export default {
 
       //分页
       this.proEnterpriseList = proEnterpriseList
-      this.proEnterpriseListPage = proEnterpriseList.slice(0, this.pageSize)
+      console.log("proEnterpriseList:",proEnterpriseList)
       this.currentPage = 1
       this.$store.commit('SetLOADING', false)
     },
     handlePageSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.pageSize = val
-      this.proEnterpriseListPage = this.proEnterpriseList.slice(0, this.pageSize)
       this.currentPage = 1
     },
     handleCurrentPageChange(val) {
       console.log(`当前页: ${val}`);
       this.currentPage = val
-      this.proEnterpriseListPage = this.proEnterpriseList.slice((val - 1) * this.pageSize, val * this.pageSize)
     },
     highlightWord(val) {
       val = val + '';
@@ -178,7 +185,15 @@ export default {
       } else {
         return val
       }
-    }
+    },
+    sortChange({ prop, order }) {
+      if(!order){
+        prop = 'Num'
+      }
+      console.log("排序:",prop, order)
+      this.proEnterpriseList.sort(utils.compare(prop,order));
+    },
+
   }
 }
 </script>
