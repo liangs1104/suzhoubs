@@ -288,32 +288,28 @@ export default {
       if (column.label === "专利摘要") {  // 只有点击数据内容列时才会展开
         row.flag = !row.flag;  // 这个参数是当时将数据存储到表格中时特意加上控制表格的展开和省略的
         this.$set(this.patentInfoPage,row.index,row)
-        console.log(this.patentInfoPage,row, column)
       }
       if (column.label === "新闻摘要") {
         row.flag = !row.flag;
         this.$set(this.newsInfo,row.index,row)
-        console.log(this.newsInfo,row, column)
       }
       if (column.label === "招标摘要") {
         row.flag = !row.flag;
         this.$set(this.tenderInfo,row.index,row)
-        console.log(this.tenderInfo,row, column)
       }
       if (column.label === "中标摘要") {
         row.flag = !row.flag;
         this.$set(this.awardTenderInfo,row.index,row)
-        console.log(this.awardTenderInfo,row, column)
       }
     },
     handlePageSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
       this.pageSize = val
       this.patentInfoPage = this.patentInfo.slice(0,this.pageSize)
       this.currentPage = 1
     },
     handleCurrentPageChange(val) {
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
       this.currentPage = val
       this.patentInfoPage = this.patentInfo.slice((val-1)*this.pageSize,val*this.pageSize)
       this.addContentLimitFlag(this.patentInfoPage)

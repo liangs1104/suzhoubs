@@ -165,7 +165,7 @@ export default {
 
       //分页
       this.proEnterpriseList = proEnterpriseList
-      console.log("proEnterpriseList:",proEnterpriseList)
+      // console.log("proEnterpriseList:",proEnterpriseList)
       this.currentPage = 1
       this.$store.commit('SetLOADING', false)
     },

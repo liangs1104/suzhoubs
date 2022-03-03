@@ -728,7 +728,7 @@ const store = new Vuex.Store({
                 .then(res => {
                     console.log("params:", params)
                     res.data.sort(utils.compare('Num',null));
-                    console.log("enterpriseList:",res.data)
+                    // console.log("enterpriseList:",res.data)
                     state.commit('SetenterpriseList', res.data)
                 })
                 .catch(error => console.log(error))
