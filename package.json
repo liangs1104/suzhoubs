@@ -5,13 +5,15 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
     "element-china-area-data": "^5.0.2",
     "element-ui": "^2.15.6",
+    "patch-package": "^6.4.7",
     "vue": "^2.6.11",
     "vue-axios": "^3.4.1",
     "vue-codemirror": "^4.0.6",
@@ -42,7 +44,12 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "vue/no-parsing-error": [2, { "x-invalid-end-tag": false }]
+      "vue/no-parsing-error": [
+        2,
+        {
+          "x-invalid-end-tag": false
+        }
+      ]
     }
   },
   "browserslist": [
