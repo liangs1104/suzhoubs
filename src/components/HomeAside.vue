@@ -80,6 +80,16 @@ export default {
               industryChain[i].children[j].count = nodeCounts[industryChain[i].children[j].nodeName].size
             }
 
+            if(industryChain[i].children[j].children){
+              for (let k in industryChain[i].children[j].children) {
+                industryChain[i].children[j].children[k].count = 0
+                if (nodeCounts[industryChain[i].children[j].children[k].nodeName]) {
+                  industryChain[i].children[j].children[k].count = nodeCounts[industryChain[i].children[j].children[k].nodeName].size
+                  nodeCounts[industryChain[i].children[j].nodeName] = new Set([...nodeCounts[industryChain[i].children[j].children[k].nodeName], ...nodeCounts[industryChain[i].children[j].nodeName]])
+                }
+              }
+            }
+
             if (nodeCounts[industryChain[i].children[j].nodeName]) {
               nodeCounts[industryChain[i].nodeName] = new Set([...nodeCounts[industryChain[i].children[j].nodeName], ...nodeCounts[industryChain[i].nodeName]])
             }

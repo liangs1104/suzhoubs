@@ -10,7 +10,7 @@ axios.defaults.timeout = 120000
 const store = new Vuex.Store({
     state: {
         chainname: "生物医药",
-        provincename: "北京市",
+        provincename: "上海市",
         cityname: "",
         keywords: "",
         nodenames:[],
