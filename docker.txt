@@ -1,0 +1,13 @@
+service docker start
+cd /root/LiangShuang/suzhoubs
+docker ps -a
+docker stop b4ec94c0ebac
+docker rm b4ec94c0ebac
+docker ps -a
+docker images
+docker rmi beac7ac2d568
+docker pull nginx
+docker build -t ls-suzhoubs .
+docker images
+docker run -d --name ls-suzhoubs -p 8081:8081 ls-suzhoubs
+docker ps -a
