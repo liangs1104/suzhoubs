@@ -136,7 +136,7 @@ export default {
     gotoDetail(val) {
       this.currentRow = val;
       console.log("企业详情：", val.enterprisename);
-      let routeUrl = this.$router.resolve({name: 'detail', params: {enterprisename: val.enterprisename.trim()}});
+      let routeUrl = this.$router.resolve({name: 'detail', params: {chainname:this.$store.state.chainname,enterprisename: val.enterprisename.trim()}});
       window.open(routeUrl.href, '_blank')
     },
     processEnterpriseList(limit) {

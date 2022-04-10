@@ -17,7 +17,7 @@ const routes = [
         meta: {title: "苏州银行系统"}
     },
     {
-        path: '/detail/:enterprisename',
+        path: '/detail/:chainname/:enterprisename',
         component: Detail,
         name: "detail",
         meta: {title: "详情"}

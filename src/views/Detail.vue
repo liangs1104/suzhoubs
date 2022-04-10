@@ -197,7 +197,7 @@ export default {
     getEnterpriseInfo(keywords) {
       axios({
         method: "get",
-        url: "../../biologicalmedicine/getEnterpriseList",
+        url: this.$store.state.chainnameUrl[this.$route.params.chainname]+"/getEnterpriseList",
         params: {
           keywords: keywords
         }
@@ -220,7 +220,7 @@ export default {
     getEnterpriseInformation() {
       axios({
         method: "get",
-        url: "../../biologicalmedicine/getEnterpriseInformation",
+        url: this.$store.state.chainnameUrl[this.$route.params.chainname]+"/getEnterpriseInformation",
         params: {
           enterprisename: this.$route.params.enterprisename
         },

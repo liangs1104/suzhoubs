@@ -45,9 +45,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(["enterpriseList"])
+    ...mapState(["enterpriseList","chainname"])
   },
   watch: {
+    chainname(){
+      this.tableData = this.$store.state.industryChain[this.$store.state.chainname]
+    },
     enterpriseList() {
       this.getIndustryChainCount(this.$store.state.industryChain[this.$store.state.chainname])
     }

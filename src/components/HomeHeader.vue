@@ -61,61 +61,63 @@ export default {
           label: '集成电路'
         }],
       chainSelectedOptions: "生物医药",
-      addrOptions: [{"value": "", "label": "全部"}, {
-        "value": "310000",
-        "label": "上海市",
-      }, {
-        "value": "320000",
-        "label": "江苏省",
-        "children": [{"value": "", "label": "全部"}, {"value": "320100", "label": "南京市"}, {
-          "value": "320200",
-          "label": "无锡市"
-        }, {"value": "320300", "label": "徐州市"}, {"value": "320400", "label": "常州市"}, {
-          "value": "320500",
-          "label": "苏州市"
-        }, {"value": "320600", "label": "南通市"}, {"value": "320700", "label": "连云港市"}, {
-          "value": "320800",
-          "label": "淮安市"
-        }, {"value": "320900", "label": "盐城市"}, {"value": "321000", "label": "扬州市"}, {
-          "value": "321100",
-          "label": "镇江市"
-        }, {"value": "321200", "label": "泰州市"}, {"value": "321300", "label": "宿迁市"}]
-      }, {
-        "value": "330000",
-        "label": "浙江省",
-        "children": [{"value": "", "label": "全部"}, {"value": "330100", "label": "杭州市"}, {
-          "value": "330200",
-          "label": "宁波市"
-        }, {"value": "330300", "label": "温州市"}, {"value": "330400", "label": "嘉兴市"}, {
-          "value": "330500",
-          "label": "湖州市"
-        }, {"value": "330600", "label": "绍兴市"}, {"value": "330700", "label": "金华市"}, {
-          "value": "330800",
-          "label": "衢州市"
-        }, {"value": "330900", "label": "舟山市"}, {"value": "331000", "label": "台州市"}, {
-          "value": "331100",
-          "label": "丽水市"
-        }]
-      }, {
-        "value": "340000",
-        "label": "安徽省",
-        "children": [{"value": "", "label": "全部"}, {"value": "340100", "label": "合肥市"}, {
-          "value": "340200",
-          "label": "芜湖市"
-        }, {"value": "340300", "label": "蚌埠市"}, {"value": "340400", "label": "淮南市"}, {
-          "value": "340500",
-          "label": "马鞍山市"
-        }, {"value": "340600", "label": "淮北市"}, {"value": "340700", "label": "铜陵市"}, {
-          "value": "340800",
-          "label": "安庆市"
-        }, {"value": "341000", "label": "黄山市"}, {"value": "341100", "label": "滁州市"}, {
-          "value": "341200",
-          "label": "阜阳市"
-        }, {"value": "341300", "label": "宿州市"}, {"value": "341500", "label": "六安市"}, {
-          "value": "341600",
-          "label": "亳州市"
-        }, {"value": "341700", "label": "池州市"}, {"value": "341800", "label": "宣城市"}]
-      }],
+      addrOptions: [
+        {"value": "", "label": "全部"},
+        {
+          "value": "310000",
+          "label": "上海市",
+        }, {
+          "value": "320000",
+          "label": "江苏省",
+          "children": [{"value": "", "label": "全部"}, {"value": "320100", "label": "南京市"}, {
+            "value": "320200",
+            "label": "无锡市"
+          }, {"value": "320300", "label": "徐州市"}, {"value": "320400", "label": "常州市"}, {
+            "value": "320500",
+            "label": "苏州市"
+          }, {"value": "320600", "label": "南通市"}, {"value": "320700", "label": "连云港市"}, {
+            "value": "320800",
+            "label": "淮安市"
+          }, {"value": "320900", "label": "盐城市"}, {"value": "321000", "label": "扬州市"}, {
+            "value": "321100",
+            "label": "镇江市"
+          }, {"value": "321200", "label": "泰州市"}, {"value": "321300", "label": "宿迁市"}]
+        }, {
+          "value": "330000",
+          "label": "浙江省",
+          "children": [{"value": "", "label": "全部"}, {"value": "330100", "label": "杭州市"}, {
+            "value": "330200",
+            "label": "宁波市"
+          }, {"value": "330300", "label": "温州市"}, {"value": "330400", "label": "嘉兴市"}, {
+            "value": "330500",
+            "label": "湖州市"
+          }, {"value": "330600", "label": "绍兴市"}, {"value": "330700", "label": "金华市"}, {
+            "value": "330800",
+            "label": "衢州市"
+          }, {"value": "330900", "label": "舟山市"}, {"value": "331000", "label": "台州市"}, {
+            "value": "331100",
+            "label": "丽水市"
+          }]
+        }, {
+          "value": "340000",
+          "label": "安徽省",
+          "children": [{"value": "", "label": "全部"}, {"value": "340100", "label": "合肥市"}, {
+            "value": "340200",
+            "label": "芜湖市"
+          }, {"value": "340300", "label": "蚌埠市"}, {"value": "340400", "label": "淮南市"}, {
+            "value": "340500",
+            "label": "马鞍山市"
+          }, {"value": "340600", "label": "淮北市"}, {"value": "340700", "label": "铜陵市"}, {
+            "value": "340800",
+            "label": "安庆市"
+          }, {"value": "341000", "label": "黄山市"}, {"value": "341100", "label": "滁州市"}, {
+            "value": "341200",
+            "label": "阜阳市"
+          }, {"value": "341300", "label": "宿州市"}, {"value": "341500", "label": "六安市"}, {
+            "value": "341600",
+            "label": "亳州市"
+          }, {"value": "341700", "label": "池州市"}, {"value": "341800", "label": "宣城市"}]
+        }],
       addrSelectedOptions: ["310000"],
       keyInput: '',
       neo4jUrl: "http://139.224.233.19:7474/browser/"
@@ -141,6 +143,7 @@ export default {
   methods: {
     handleChainChange(value) {
       this.$store.commit('Setchainname', value)
+      this.$store.commit('Setnodenames', [])
       console.log("产业链:", value)
     },
     handleAddrChange(value) {

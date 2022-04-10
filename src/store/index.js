@@ -243,451 +243,164 @@ const store = new Vuex.Store({
             "医疗器械":
                 [
                     {
-                        id: 10,
-                        nodeName: '制药原材料',
-                        count: 0,
-                        children: [
-                            {
-                                id: 11,
-                                nodeName: '基础化工材料',
-                                count: 0,
-                            },
-                            {
-                                id: 12,
-                                nodeName: '医用包材',
-                                count: 0,
-                            },
-                            {
-                                id: 13,
-                                nodeName: '药用辅料',
-                                count: 0,
-                            },
-                        ]
+                        id: '1',
+                        nodeName: 'EDA电子设计自动化',
+                        count: 0
                     },
                     {
-                        id: 20,
-                        nodeName: '大宗原料药',
-                        count: 0,
-                        children: [
-                            {
-                                id: 21,
-                                nodeName: '维生素类',
-                                count: 0,
-                            },
-                            {
-                                id: 22,
-                                nodeName: '抗生素类',
-                                count: 0,
-                            },
-                            {
-                                id: 23,
-                                nodeName: '解热镇痛类',
-                                count: 0,
-                            },
-                            {
-                                id: 24,
-                                nodeName: '激素类',
-                                count: 0,
-                            },
-                        ]
+                        id: '2',
+                        nodeName: '呼吸麻醉设备及装置',
+                        count: 0
                     },
                     {
-                        id: 30,
-                        nodeName: '制药设备',
-                        count: 0,
-                        children: []
+                        id: '3',
+                        nodeName: '计划生育器械',
+                        count: 0
                     },
                     {
-                        id: 40,
-                        nodeName: '传统中药',
-                        count: 0,
-                        children: [
-                            {
-                                id: 41,
-                                nodeName: '中药材',
-                                count: 0,
-                            },
-                            {
-                                id: 42,
-                                nodeName: '中药饮片',
-                                count: 0,
-                            }
-                        ]
+                        id: '4',
+                        nodeName: '口腔材料、器械和设备',
+                        count: 0
                     },
                     {
-                        id: 50,
-                        nodeName: '中药',
-                        count: 0,
-                        children: [
-                            {
-                                id: 51,
-                                nodeName: '中成药',
-                                count: 0,
-                            }
-                        ]
+                        id: '5',
+                        nodeName: '手术、治疗电子仪器',
+                        count: 0
                     },
                     {
-                        id: 60,
-                        nodeName: '化学药',
-                        count: 0,
-                        children: [
-                            {
-                                id: 61,
-                                nodeName: '原料药',
-                                count: 0,
-                                children: [
-                                    {
-                                        id: 62,
-                                        nodeName: '特色原料药',
-                                        count: 0,
-                                    },
-                                    {
-                                        id: 63,
-                                        nodeName: '药用辅助药',
-                                        count: 0,
-                                    }
-                                ]
-                            }
-                        ]
+                        id: '6',
+                        nodeName: '输液、输血、采血、引流器械',
+                        count: 0
                     },
                     {
-                        id: 70,
-                        nodeName: '制剂',
-                        count: 0,
-                        children: [
-                            {
-                                id: 71,
-                                nodeName: '抗感染药',
-                                count: 0,
-                            },
-                            {
-                                id: 72,
-                                nodeName: '心血管系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 73,
-                                nodeName: '血液和造血系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 74,
-                                nodeName: '抗肿瘤药',
-                                count: 0,
-                            },
-                            {
-                                id: 75,
-                                nodeName: '神经系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 76,
-                                nodeName: '呼吸系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 77,
-                                nodeName: '消化系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 78,
-                                nodeName: '免疫调节剂',
-                                count: 0,
-                            },
-                            {
-                                id: 79,
-                                nodeName: '皮肤及五官科药物',
-                                count: 0,
-                            },
-                        ]
+                        id: '7',
+                        nodeName: '卫生材料',
+                        count: 0
                     },
                     {
-                        id: 80,
-                        nodeName: '创新药',
-                        count: 0,
-                        children: []
+                        id: '8',
+                        nodeName: '医用x射线设备及用具',
+                        count: 0
                     },
                     {
-                        id: 90,
-                        nodeName: '保健品',
-                        count: 0,
-                        children: []
+                        id: '9',
+                        nodeName: '医用超声设备',
+                        count: 0
                     },
                     {
-                        id: 100,
-                        nodeName: '生物制药',
-                        count: 0,
-                        children: []
+                        id: '10',
+                        nodeName: '医用光学和仪器',
+                        count: 0
                     },
                     {
-                        id: 110,
-                        nodeName: '疫苗',
-                        count: 0,
-                        children: [
-                            {
-                                id: 111,
-                                nodeName: '一类疫苗',
-                                count: 0,
-                                children: []
-                            },
-                            {
-                                id: 112,
-                                nodeName: '二类疫苗',
-                                count: 0,
-                                children: []
-                            }
-                        ]
+                        id: '11',
+                        nodeName: '医用生物防护',
+                        count: 0
                     },
                     {
-                        id: 120,
-                        nodeName: '诊断检测',
-                        count: 0,
-                        children: []
+                        id: '12',
+                        nodeName: '医用体外循环设备及装置',
+                        count: 0
                     },
                     {
-                        id: 130,
-                        nodeName: '医药流通',
-                        count: 0,
-                        children: []
+                        id: '13',
+                        nodeName: '医用血管内导管及非血管内导管',
+                        count: 0
                     },
                     {
-                        id: 140,
-                        nodeName: '医疗废弃物处理',
-                        count: 0,
-                        children: []
+                        id: '14',
+                        nodeName: '诊断电子仪器',
+                        count: 0
                     },
                     {
-                        id: 150,
-                        nodeName: '医疗废水处理',
-                        count: 0,
-                        children: []
+                        id: '15',
+                        nodeName: '注射器（针）、穿刺器械',
+                        count: 0
                     }
                 ],
             "集成电路":
                 [
                     {
-                        id: 10,
-                        nodeName: '制药原材料',
-                        count: 0,
-                        children: [
-                            {
-                                id: 11,
-                                nodeName: '基础化工材料',
-                                count: 0,
-                            },
-                            {
-                                id: 12,
-                                nodeName: '医用包材',
-                                count: 0,
-                            },
-                            {
-                                id: 13,
-                                nodeName: '药用辅料',
-                                count: 0,
-                            },
-                        ]
+                        id: '1',
+                        nodeName: 'EDA电子设计自动化',
+                        count: 0
                     },
                     {
-                        id: 20,
-                        nodeName: '大宗原料药',
-                        count: 0,
-                        children: [
-                            {
-                                id: 21,
-                                nodeName: '维生素类',
-                                count: 0,
-                            },
-                            {
-                                id: 22,
-                                nodeName: '抗生素类',
-                                count: 0,
-                            },
-                            {
-                                id: 23,
-                                nodeName: '解热镇痛类',
-                                count: 0,
-                            },
-                            {
-                                id: 24,
-                                nodeName: '激素类',
-                                count: 0,
-                            },
-                        ]
+                        id: '2',
+                        nodeName: '半导体制造材料',
+                        count: 0
                     },
                     {
-                        id: 30,
-                        nodeName: '制药设备',
-                        count: 0,
-                        children: []
+                        id: '3',
+                        nodeName: '湿电子化学品',
+                        count: 0
                     },
                     {
-                        id: 40,
-                        nodeName: '传统中药',
-                        count: 0,
-                        children: [
-                            {
-                                id: 41,
-                                nodeName: '中药材',
-                                count: 0,
-                            },
-                            {
-                                id: 42,
-                                nodeName: '中药饮片',
-                                count: 0,
-                            }
-                        ]
+                        id: '4',
+                        nodeName: '半导体设备',
+                        count: 0
                     },
                     {
-                        id: 50,
-                        nodeName: '中药',
-                        count: 0,
-                        children: [
-                            {
-                                id: 51,
-                                nodeName: '中成药',
-                                count: 0,
-                            }
-                        ]
+                        id: '5',
+                        nodeName: '芯片制造',
+                        count: 0
                     },
                     {
-                        id: 60,
-                        nodeName: '化学药',
-                        count: 0,
-                        children: [
-                            {
-                                id: 61,
-                                nodeName: '原料药',
-                                count: 0,
-                                children: [
-                                    {
-                                        id: 62,
-                                        nodeName: '特色原料药',
-                                        count: 0,
-                                    },
-                                    {
-                                        id: 63,
-                                        nodeName: '药用辅助药',
-                                        count: 0,
-                                    }
-                                ]
-                            }
-                        ]
+                        id: '6',
+                        nodeName: '芯片封装',
+                        count: 0
                     },
                     {
-                        id: 70,
-                        nodeName: '制剂',
-                        count: 0,
-                        children: [
-                            {
-                                id: 71,
-                                nodeName: '抗感染药',
-                                count: 0,
-                            },
-                            {
-                                id: 72,
-                                nodeName: '心血管系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 73,
-                                nodeName: '血液和造血系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 74,
-                                nodeName: '抗肿瘤药',
-                                count: 0,
-                            },
-                            {
-                                id: 75,
-                                nodeName: '神经系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 76,
-                                nodeName: '呼吸系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 77,
-                                nodeName: '消化系统用药',
-                                count: 0,
-                            },
-                            {
-                                id: 78,
-                                nodeName: '免疫调节剂',
-                                count: 0,
-                            },
-                            {
-                                id: 79,
-                                nodeName: '皮肤及五官科药物',
-                                count: 0,
-                            },
-                        ]
+                        id: '7',
+                        nodeName: '通讯芯片',
+                        count: 0
                     },
                     {
-                        id: 80,
-                        nodeName: '创新药',
-                        count: 0,
-                        children: []
+                        id: '8',
+                        nodeName: '计算及控制芯片',
+                        count: 0
                     },
                     {
-                        id: 90,
-                        nodeName: '保健品',
-                        count: 0,
-                        children: []
+                        id: '9',
+                        nodeName: '存储器芯片',
+                        count: 0
                     },
                     {
-                        id: 100,
-                        nodeName: '生物制药',
-                        count: 0,
-                        children: []
+                        id: '10',
+                        nodeName: '音视频处理芯片',
+                        count: 0
                     },
                     {
-                        id: 110,
-                        nodeName: '疫苗',
-                        count: 0,
-                        children: [
-                            {
-                                id: 111,
-                                nodeName: '一类疫苗',
-                                count: 0,
-                                children: []
-                            },
-                            {
-                                id: 112,
-                                nodeName: '二类疫苗',
-                                count: 0,
-                                children: []
-                            }
-                        ]
+                        id: '11',
+                        nodeName: '电源管理芯片',
+                        count: 0
                     },
                     {
-                        id: 120,
-                        nodeName: '诊断检测',
-                        count: 0,
-                        children: []
+                        id: '12',
+                        nodeName: '驱动芯片',
+                        count: 0
                     },
                     {
-                        id: 130,
-                        nodeName: '医药流通',
-                        count: 0,
-                        children: []
+                        id: '13',
+                        nodeName: '传感器芯片',
+                        count: 0
                     },
                     {
-                        id: 140,
-                        nodeName: '医疗废弃物处理',
-                        count: 0,
-                        children: []
+                        id: '14',
+                        nodeName: '其他芯片',
+                        count: 0
                     },
                     {
-                        id: 150,
-                        nodeName: '医疗废水处理',
-                        count: 0,
-                        children: []
+                        id: '15',
+                        nodeName: '电子元器件',
+                        count: 0
                     }
                 ]
+        },
+        chainnameUrl:{
+            "生物医药":"../../biologicalmedicine",
+            "医疗器械":"",
+            "集成电路":"../../integratedcircuit"
         },
         LOADING: true,
         limitLength:100//文本长度限制
@@ -721,7 +434,7 @@ const store = new Vuex.Store({
         getEnterpriseList: (state, params) => {
             axios({
                 method: "get",
-                url: "../../biologicalmedicine/getEnterpriseList",
+                url: store.state.chainnameUrl[params.chainname]+"/getEnterpriseList",
                 params: params,
                 timeout: 120000
             })
