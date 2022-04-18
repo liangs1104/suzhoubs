@@ -244,7 +244,7 @@ const store = new Vuex.Store({
                 [
                     {
                         id: '1',
-                        nodeName: 'EDA电子设计自动化',
+                        nodeName: '放射治疗、核医学和放射剂量学',
                         count: 0
                     },
                     {
@@ -254,12 +254,12 @@ const store = new Vuex.Store({
                     },
                     {
                         id: '3',
-                        nodeName: '计划生育器械',
+                        nodeName: '患者承载设备',
                         count: 0
                     },
                     {
                         id: '4',
-                        nodeName: '口腔材料、器械和设备',
+                        nodeName: '计划生育器械',
                         count: 0
                     },
                     {
@@ -274,48 +274,53 @@ const store = new Vuex.Store({
                     },
                     {
                         id: '7',
-                        nodeName: '卫生材料',
+                        nodeName: '外科植入物',
                         count: 0
                     },
                     {
                         id: '8',
-                        nodeName: '医用x射线设备及用具',
+                        nodeName: '卫生材料',
                         count: 0
                     },
                     {
                         id: '9',
-                        nodeName: '医用超声设备',
+                        nodeName: '医用x射线设备及用具',
                         count: 0
                     },
                     {
                         id: '10',
-                        nodeName: '医用光学和仪器',
+                        nodeName: '医用超声设备',
                         count: 0
                     },
                     {
                         id: '11',
-                        nodeName: '医用生物防护',
+                        nodeName: '医用光学和仪器',
                         count: 0
                     },
                     {
                         id: '12',
-                        nodeName: '医用体外循环设备及装置',
+                        nodeName: '医用生物防护',
                         count: 0
                     },
                     {
                         id: '13',
-                        nodeName: '医用血管内导管及非血管内导管',
+                        nodeName: '医用体外循坏设备及装置',
                         count: 0
                     },
                     {
                         id: '14',
-                        nodeName: '诊断电子仪器',
+                        nodeName: '医用血管内导管及非血管内导管',
                         count: 0
                     },
                     {
                         id: '15',
-                        nodeName: '注射器（针）、穿刺器械',
+                        nodeName: '诊断电子仪器',
                         count: 0
+                    },
+                    {
+                        id:'16',
+                        nodeName: '注射器（针）、穿刺器械',
+                        count:0
                     }
                 ],
             "集成电路":
@@ -399,7 +404,7 @@ const store = new Vuex.Store({
         },
         chainnameUrl:{
             "生物医药":"../../biologicalmedicine",
-            "医疗器械":"",
+            "医疗器械":"../../medicainstruments",
             "集成电路":"../../integratedcircuit"
         },
         LOADING: true,

@@ -15,14 +15,14 @@
           <span>{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-<!--      <el-table-column-->
-<!--          prop="Num"-->
-<!--          label="相关度"-->
-<!--          min-width="20%">-->
-<!--        <template slot-scope="scope">-->
-<!--          <span class="col-cont" v-html=" highlightWord( scope.row.Num)"></span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column-->
+      <!--          prop="Num"-->
+      <!--          label="相关度"-->
+      <!--          min-width="20%">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <span class="col-cont" v-html=" highlightWord( scope.row.Num)"></span>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column
           prop="enterprisename"
           label="企业名称">
@@ -127,6 +127,7 @@ export default {
     },
     LOADING() {
       this.loading = this.$store.state.LOADING
+      console.log(this.loading)
     },
     nodenames() {
       this.processEnterpriseList(3)
@@ -134,10 +135,15 @@ export default {
   },
   methods: {
     gotoDetail(val) {
-      this.currentRow = val;
-      console.log("企业详情：", val.enterprisename);
-      let routeUrl = this.$router.resolve({name: 'detail', params: {chainname:this.$store.state.chainname,enterprisename: val.enterprisename.trim()}});
-      window.open(routeUrl.href, '_blank')
+      if (val) {
+        this.currentRow = val;
+        console.log("企业详情：", val.enterprisename);
+        let routeUrl = this.$router.resolve({
+          name: 'detail',
+          params: {chainname: this.$store.state.chainname, enterprisename: val.enterprisename.trim()}
+        });
+        window.open(routeUrl.href, '_blank')
+      }
     },
     processEnterpriseList(limit) {
       let proEnterpriseList = JSON.parse(JSON.stringify(this.$store.state.enterpriseList))//浅拷贝
@@ -159,7 +165,7 @@ export default {
       for (let i in proEnterpriseList) {
         proEnterpriseList[i].words = utils.limitNum(proEnterpriseList[i].words, limit)
         proEnterpriseList[i].nodes = utils.limitNum(proEnterpriseList[i].nodes, limit)
-        proEnterpriseList[i].capital = parseFloat(proEnterpriseList[i].capital).toFixed(2) + " 万元"
+        proEnterpriseList[i].capital = parseFloat(proEnterpriseList[i].capital).toFixed(2) + " 万" + proEnterpriseList[i].capitalcurrency
         proEnterpriseList[i].establishdate = proEnterpriseList[i].establishdate.slice(0, 10)
       }
 
@@ -186,12 +192,12 @@ export default {
         return val
       }
     },
-    sortChange({ prop, order }) {
-      if(!order){
+    sortChange({prop, order}) {
+      if (!order) {
         prop = 'Num'
       }
-      console.log("排序:",prop, order)
-      this.proEnterpriseList.sort(utils.compare(prop,order));
+      console.log("排序:", prop, order)
+      this.proEnterpriseList.sort(utils.compare(prop, order));
     },
 
   }

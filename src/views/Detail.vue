@@ -213,7 +213,7 @@ export default {
 
       baseInfo.nodes = utils.limitNum(baseInfo.nodes, limit)
 
-      baseInfo.capital = parseFloat(baseInfo.capital).toFixed(2) + " 万元"
+      baseInfo.capital = parseFloat(baseInfo.capital).toFixed(2) + " 万"+baseInfo.capitalcurrency
 
       baseInfo.establishdate = baseInfo.establishdate.slice(0, 10)
     },

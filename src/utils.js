@@ -34,6 +34,7 @@ function limitNum(data, limit) {
             data = temp.concat(data)
         }
 
+        data = data.join(",").trim().split(",")
         if (data.length > limit) {
             data = data.slice(0, limit).join(", ") + ", ..."
         } else {
