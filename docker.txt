@@ -1,0 +1,10 @@
+docker images
+docker ps -a
+docker stop cc06abab5e9f
+docker rm cc06abab5e9f
+docker rmi ls-suzhoubs
+docker images
+cd /root/LiangShuang/suzhoubs
+docker build -t ls-suzhoubs .
+docker images
+docker run -d -p  8081:8081 ls-suzhoubs

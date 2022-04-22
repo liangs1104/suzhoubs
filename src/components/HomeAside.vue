@@ -104,7 +104,12 @@ export default {
           industryChain[i].count = nodeCounts[industryChain[i].nodeName].size
         }
       }
-      this.tableData = industryChain
+      //倒序
+      this.tableData = industryChain.sort(function(a,b){
+        return b.count - a.count
+      })
+      this.$refs.industryChain.setCurrentRow()
+      this.$store.commit('Setnodenames', [])
     },
     handleNodenameChange(row) {
       this.currentRow = row
