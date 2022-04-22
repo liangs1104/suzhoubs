@@ -64,7 +64,7 @@
                   :formatter="stateFormat">
               </el-table-column>
             </el-table>
-            <div class="block" v-if="patentInfo.length >10">
+            <div class="block" v-if="patentInfo && patentInfo.length >10">
               <el-pagination
                   @size-change="handlePageSizeChange"
                   @current-change="handleCurrentPageChange"
@@ -88,13 +88,16 @@
 
             <p>新闻信息</p>
             <el-table
-                :data="newsInfo"
+                :data="newsInfoPage"
                 :cell-class-name="tableCellClassName"
                 @cell-click="clickContent"
                 style="width: 100%">
               <el-table-column
                   type="index"
                   label="序号">
+                <template scope="scope">
+                  <span>{{(newsCurrentPage - 1) * newsPageSize + scope.$index + 1}}</span>
+                </template>
               </el-table-column>
               <el-table-column
                   prop="新闻标题"
@@ -107,18 +110,33 @@
                   :formatter="stateFormat">
               </el-table-column>
             </el-table>
-
+            <div class="block" v-if="newsInfo && newsInfo.length >10">
+              <el-pagination
+                  @size-change="handleNewsPageSizeChange"
+                  @current-change="handleNewsCurrentPageChange"
+                  :current-page="newsCurrentPage"
+                  :page-sizes="[10, 20, 30, 40]"
+                  :page-size="newsPageSize"
+                  background
+                  style="text-align: center;"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="newsInfo.length">
+              </el-pagination>
+            </div>
             <el-divider></el-divider>
 
             <p>招标信息</p>
             <el-table
-                :data="tenderInfo"
+                :data="tenderInfoPage"
                 :cell-class-name="tableCellClassName"
                 @cell-click="clickContent"
                 style="width: 100%">
               <el-table-column
                   type="index"
                   label="序号">
+                <template scope="scope">
+                  <span>{{(tenderCurrentPage - 1) * tenderPageSize + scope.$index + 1}}</span>
+                </template>
               </el-table-column>
               <el-table-column
                   prop="标题"
@@ -131,18 +149,33 @@
                   :formatter="stateFormat">
               </el-table-column>
             </el-table>
-
+            <div class="block" v-if="tenderInfo && tenderInfo.length >10">
+              <el-pagination
+                  @size-change="handleTenderPageSizeChange"
+                  @current-change="handleTenderCurrentPageChange"
+                  :current-page="tenderCurrentPage"
+                  :page-sizes="[10, 20, 30, 40]"
+                  :page-size="tenderPageSize"
+                  background
+                  style="text-align: center;"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="tenderInfo.length">
+              </el-pagination>
+            </div>
             <el-divider></el-divider>
 
             <p>中标信息</p>
             <el-table
-                :data="awardTenderInfo"
+                :data="awardTenderInfoPage"
                 :cell-class-name="tableCellClassName"
                 @cell-click="clickContent"
                 style="width: 100%">
               <el-table-column
                   type="index"
                   label="序号">
+                <template scope="scope">
+                  <span>{{(awardCurrentPage - 1) * awardPageSize + scope.$index + 1}}</span>
+                </template>
               </el-table-column>
               <el-table-column
                   prop="标题"
@@ -155,6 +188,19 @@
                   :formatter="stateFormat">
               </el-table-column>
             </el-table>
+            <div class="block" v-if="awardTenderInfo && awardTenderInfo.length >10">
+              <el-pagination
+                  @size-change="handleAwardPageSizeChange"
+                  @current-change="handleAwardCurrentPageChange"
+                  :current-page="awardCurrentPage"
+                  :page-sizes="[10, 20, 30, 40]"
+                  :page-size="awardPageSize"
+                  background
+                  style="text-align: center;"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="awardTenderInfo.length">
+              </el-pagination>
+            </div>
           </el-main>
         </el-container>
       </div>
@@ -179,11 +225,21 @@ export default {
       patentInfoPage:[],
       baikeInfo: {},
       newsInfo: [],
+      newsInfoPage:[],
       tenderInfo: [],
+      tenderInfoPage: [],
       awardTenderInfo: [],
+      awardTenderInfoPage: [],
 
       pageSize:10,//一页包含条数
       currentPage: 1,//当前页码
+
+      newsPageSize:10,//一页包含条数
+      newsCurrentPage: 1,//当前页码
+      tenderPageSize:10,//一页包含条数
+      tenderCurrentPage: 1,//当前页码
+      awardPageSize:10,//一页包含条数
+      awardCurrentPage: 1,//当前页码
     }
   },
   components: {
@@ -240,13 +296,13 @@ export default {
             }
 
             this.newsInfo = enterpriseInfo['新闻信息']
-            this.addContentLimitFlag(this.newsInfo)
+            this.processNewsInfo(this.newsInfo)
 
             this.tenderInfo = enterpriseInfo['招标信息']
-            this.addContentLimitFlag(this.tenderInfo)
+            this.processTenderInfo(this.tenderInfo)
 
             this.awardTenderInfo = enterpriseInfo['中标信息']
-            this.addContentLimitFlag(this.awardTenderInfo)
+            this.processAwardTenderInfo(this.awardTenderInfo)
 
           })
           .catch(error => console.log(error))
@@ -259,9 +315,40 @@ export default {
       for (let i in patentInfo) {
         patentInfo[i]["专利关键词"] = utils.limitNum(patentInfo[i]["专利关键词"], limit)
       }
-      this.currentPage = 1
-      this.patentInfoPage = patentInfo.slice(0,this.pageSize)
+      if(patentInfo && patentInfo.length > 10){
+        this.currentPage = 1
+        this.patentInfoPage = patentInfo.slice(0,this.pageSize)
+      }else {
+        this.patentInfoPage = patentInfo
+      }
       this.addContentLimitFlag(this.patentInfoPage)
+    },
+    processNewsInfo(newsInfo) {//以下三个函数，处理方式一样，但是变量不一样，如何改进代码
+      if(newsInfo && newsInfo.length > 10){
+        this.newsCurrentPage = 1
+        this.newsInfoPage = newsInfo.slice(0,this.newsPageSize)
+      }else {
+        this.newsInfoPage = newsInfo
+      }
+      this.addContentLimitFlag(this.newsInfoPage)
+    },
+    processTenderInfo(tenderInfo) {
+      if(tenderInfo && tenderInfo.length>10) {
+        this.tenderCurrentPage = 1
+        this.tenderInfoPage = tenderInfo.slice(0, this.tenderPageSize)
+      }else {
+        this.tenderInfoPage = tenderInfo
+      }
+      this.addContentLimitFlag(this.tenderInfoPage)
+    },
+    processAwardTenderInfo(awardTenderInfo) {
+      if(awardTenderInfo && awardTenderInfo > 10){
+        this.awardCurrentPage = 1
+        this.awardTenderInfoPage = awardTenderInfo.slice(0,this.awardPageSize)
+      }else {
+        this.awardTenderInfoPage = awardTenderInfo
+      }
+      this.addContentLimitFlag(this.awardTenderInfoPage)
     },
     addContentLimitFlag(info){
       for(let i in info){
@@ -313,6 +400,42 @@ export default {
       this.currentPage = val
       this.patentInfoPage = this.patentInfo.slice((val-1)*this.pageSize,val*this.pageSize)
       this.addContentLimitFlag(this.patentInfoPage)
+    },
+    handleNewsPageSizeChange(val) {
+      // console.log(`每页 ${val} 条`);
+      this.newsPageSize = val
+      this.newsInfoPage = this.newsInfo.slice(0,this.newsPageSize)
+      this.newsCurrentPage = 1
+    },
+    handleNewsCurrentPageChange(val) {
+      // console.log(`当前页: ${val}`);
+      this.newsCurrentPage = val
+      this.newsInfoPage = this.newsInfo.slice((val-1)*this.newsPageSize,val*this.newsPageSize)
+      this.addContentLimitFlag(this.newsInfoPage)
+    },
+    handleTenderPageSizeChange(val) {
+      // console.log(`每页 ${val} 条`);
+      this.tenderPageSize = val
+      this.tenderInfoPage = this.tenderInfo.slice(0,this.tenderPageSize)
+      this.tenderCurrentPage = 1
+    },
+    handleTenderCurrentPageChange(val) {
+      // console.log(`当前页: ${val}`);
+      this.tenderCurrentPage = val
+      this.tenderInfoPage = this.tenderInfo.slice((val-1)*this.tenderPageSize,val*this.tenderPageSize)
+      this.addContentLimitFlag(this.tenderInfoPage)
+    },
+    handleAwardPageSizeChange(val) {
+      // console.log(`每页 ${val} 条`);
+      this.awardPageSize = val
+      this.awardTenderInfoPage = this.awardTenderInfo.slice(0,this.awardPageSize)
+      this.awardCurrentPage = 1
+    },
+    handleAwardCurrentPageChange(val) {
+      // console.log(`当前页: ${val}`);
+      this.awardCurrentPage = val
+      this.awardTenderInfoPage = this.awardTenderInfo.slice((val-1)*this.awardPageSize,val*this.awardPageSize)
+      this.addContentLimitFlag(this.awardTenderInfoPage)
     }
   },
 
