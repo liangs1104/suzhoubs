@@ -309,7 +309,7 @@ export default {
     },
     processBusinessInfo(businessInfo) {
       businessInfo['成立时间'] = businessInfo['成立时间'].substr(0, 10)
-      businessInfo['注册资本'] = parseFloat(businessInfo['注册资本']).toFixed(2) + " 万元"
+      businessInfo['注册资本'] = parseFloat(businessInfo['注册资本']).toFixed(2) + " 万"+businessInfo['币种']
     },
     processPatentInfo(patentInfo, limit) {
       for (let i in patentInfo) {
