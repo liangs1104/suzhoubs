@@ -4,11 +4,11 @@
     <div class="header-left">
       <div class="header-user-con">
 
-        <div class="user-avator">
+        <div v-if="$route.path.indexOf('home')!==-1" class="user-avator">
           <img :src="imgurl"/>
         </div>
 
-        <el-select class="mr10" v-model="chainSelectedOptions" @change="handleChainChange">
+        <el-select class="mr10" v-if="$route.path.indexOf('home')!==-1" v-model="chainSelectedOptions" @change="handleChainChange">
           <el-option
               v-for="item in chainOptions"
               :key="item.value"
@@ -17,7 +17,7 @@
           </el-option>
         </el-select>
 
-        <el-cascader
+        <el-cascader v-if="$route.path.indexOf('home')!==-1"
             class="mr10"
             size="large"
             :options="addrOptions"
@@ -27,12 +27,12 @@
         >
         </el-cascader>
 
-        <el-input placeholder="请输入检索关键词" v-model="keyInput" @change="handleKeywordsChange" class="mr10"
+        <el-input v-if="$route.path.indexOf('home')!==-1" placeholder="请输入检索关键词" v-model="keyInput" @change="handleKeywordsChange" class="mr10"
                   style="width:300px;">
           <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
 
-        <el-link class="mr10" :href="neo4jUrl" target="_blank">
+        <el-link v-if="$route.path.indexOf('home')!==-1" class="mr10" :href="neo4jUrl" target="_blank">
           <el-button type="primary" icon="el-icon-share">知识图谱</el-button>
         </el-link>
       </div>

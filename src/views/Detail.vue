@@ -247,7 +247,7 @@ export default {
   },
   mounted() {
     this.getEnterpriseInfo(this.$route.params.enterprisename)
-    this.getEnterpriseInformation()
+    this.getEnterpriseInformation(5)
   },
   methods: {
     getEnterpriseInfo(keywords) {
@@ -273,7 +273,7 @@ export default {
 
       baseInfo.establishdate = baseInfo.establishdate.slice(0, 10)
     },
-    getEnterpriseInformation() {
+    getEnterpriseInformation(limit) {
       axios({
         method: "get",
         url: this.$store.state.chainnameUrl[this.$route.params.chainname]+"/getEnterpriseInformation",
@@ -288,7 +288,7 @@ export default {
             this.processBusinessInfo(this.businessInfo)
 
             this.patentInfo = enterpriseInfo['专利信息']
-            this.processPatentInfo(this.patentInfo, 10)
+            this.processPatentInfo(this.patentInfo, limit)
 
             this.baikeInfo = enterpriseInfo['百科信息'][0]
             if(!this.baikeInfo){
