@@ -143,13 +143,6 @@ export default {
   methods: {
     handleChainChange(value) {
       this.$store.commit('Setchainname', value)
-      // this.$store.commit('Setnodenames', [])
-      // while(true){
-      //   if(!this.$store.state.LOADING){
-      //     this.$store.commit('Setchainname', value)
-      //     break
-      //   }
-      // }
       console.log("产业链:", value)
     },
     handleAddrChange(value) {

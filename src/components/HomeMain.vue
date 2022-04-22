@@ -14,15 +14,16 @@
         <template scope="scope">
           <span>{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</span>
         </template>
+<!--        查看排序-->
       </el-table-column>
-      <!--      <el-table-column-->
-      <!--          prop="Num"-->
-      <!--          label="相关度"-->
-      <!--          min-width="20%">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          <span class="col-cont" v-html=" highlightWord( scope.row.Num)"></span>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
+<!--            <el-table-column-->
+<!--                prop="Num"-->
+<!--                label="相关度"-->
+<!--                min-width="20%">-->
+<!--              <template slot-scope="scope">-->
+<!--                <span class="col-cont" v-html=" highlightWord( scope.row.Num)"></span>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
       <el-table-column
           prop="enterprisename"
           label="企业名称">
@@ -146,7 +147,13 @@ export default {
       }
     },
     processEnterpriseList(limit) {
+      this.$store.state.enterpriseList.filter(item =>{
+        item.Num = parseInt(item.Num)
+      })
       let proEnterpriseList = JSON.parse(JSON.stringify(this.$store.state.enterpriseList))//浅拷贝
+      proEnterpriseList.sort(function(a,b){
+        return b.Num - a.Num
+      })
 
       //产业链节点筛选
       if (this.$store.state.nodenames.length) {
@@ -171,7 +178,7 @@ export default {
 
       //分页
       this.proEnterpriseList = proEnterpriseList
-      // console.log("proEnterpriseList:",proEnterpriseList)
+      console.log("proEnterpriseList:",proEnterpriseList)
       this.currentPage = 1
       this.$store.commit('SetLOADING', false)
     },
