@@ -68,9 +68,9 @@ function compare (propertyName, sort) {
         var value2 = obj2[propertyName]
         if (typeof value1 === 'string' && typeof value2 === 'string') {
             if(propertyName === 'capital'){
-                if (parseInt(value1) <= parseInt(value2)) {
+                if (parseFloat(value1) <= parseFloat(value2)) {
                     return sort === 'ascending' ? -1 : 1
-                } else if (parseInt(value1) > parseInt(value2)) {
+                } else if (parseFloat(value1) > parseFloat(value2)) {
                     return sort === 'ascending' ? 1 : -1
                 }
             }
@@ -85,7 +85,6 @@ function compare (propertyName, sort) {
         }
     }
 }
-
 export default {
     limitNum,
     compare

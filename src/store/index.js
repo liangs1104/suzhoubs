@@ -304,7 +304,7 @@ const store = new Vuex.Store({
                     },
                     {
                         id: '13',
-                        nodeName: '医用体外循坏设备及装置',
+                        nodeName: '医用体外循环设备及装置',
                         count: 0
                     },
                     {

@@ -71,6 +71,7 @@ export default {
           nodeCounts[nodes[j]].add(i)
         }
       }
+
       for (let i in industryChain) {
         if (!nodeCounts[industryChain[i].nodeName]) {
           nodeCounts[industryChain[i].nodeName] = new Set()
@@ -78,10 +79,6 @@ export default {
 
         if (industryChain[i].children) {
           for (let j in industryChain[i].children) {
-            industryChain[i].children[j].count = 0
-            if (nodeCounts[industryChain[i].children[j].nodeName]) {
-              industryChain[i].children[j].count = nodeCounts[industryChain[i].children[j].nodeName].size
-            }
 
             if(industryChain[i].children[j].children){
               for (let k in industryChain[i].children[j].children) {
@@ -93,7 +90,9 @@ export default {
               }
             }
 
+            industryChain[i].children[j].count = 0
             if (nodeCounts[industryChain[i].children[j].nodeName]) {
+              industryChain[i].children[j].count = nodeCounts[industryChain[i].children[j].nodeName].size
               nodeCounts[industryChain[i].nodeName] = new Set([...nodeCounts[industryChain[i].children[j].nodeName], ...nodeCounts[industryChain[i].nodeName]])
             }
           }
@@ -123,6 +122,11 @@ export default {
         let nodenames = [row.nodeName]
         for (let i in row.children) {
           nodenames.push(row.children[i].nodeName)
+          if(row.children[i].children){
+            for (let j in row.children[i].children) {
+              nodenames.push(row.children[i].children[j].nodeName)
+            }
+          }
         }
         this.$store.commit('Setnodenames', nodenames)
       }

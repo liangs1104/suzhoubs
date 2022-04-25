@@ -14,16 +14,17 @@
         <template scope="scope">
           <span>{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</span>
         </template>
-<!--        查看排序-->
       </el-table-column>
-<!--            <el-table-column-->
-<!--                prop="Num"-->
-<!--                label="相关度"-->
-<!--                min-width="20%">-->
-<!--              <template slot-scope="scope">-->
-<!--                <span class="col-cont" v-html=" highlightWord( scope.row.Num)"></span>-->
-<!--              </template>-->
-<!--            </el-table-column>-->
+      <!--        查看排序-->
+<!--      <el-table-column-->
+<!--          prop="Num"-->
+<!--          label="相关度"-->
+<!--          min-width="20%">-->
+<!--        <template slot-scope="scope">-->
+<!--          <span v-if="$store.state.chainname !== '生物医药' && $store.state.nodenames.length >0" class="col-cont" v-html=" highlightWord( scope.row.nodewithnum[$store.state.nodenames])"></span>-->
+<!--          <span v-else class="col-cont" v-html=" highlightWord( scope.row.Num)"></span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column
           prop="enterprisename"
           label="企业名称">
@@ -132,6 +133,7 @@ export default {
     },
     nodenames() {
       this.processEnterpriseList(3)
+      this.sortChange({prop: 'Num', order: 'descending'})
     }
   },
   methods: {
@@ -147,20 +149,14 @@ export default {
       }
     },
     processEnterpriseList(limit) {
-      this.$store.state.enterpriseList.filter(item =>{
-        item.Num = parseInt(item.Num)
-      })
       let proEnterpriseList = JSON.parse(JSON.stringify(this.$store.state.enterpriseList))//浅拷贝
-      proEnterpriseList.sort(function(a,b){
-        return b.Num - a.Num
-      })
 
       //产业链节点筛选
       if (this.$store.state.nodenames.length) {
         proEnterpriseList = proEnterpriseList.filter(item => {
           let nodenames = this.$store.state.nodenames
           for (let i in nodenames) {
-            if (item.nodes.indexOf(nodenames[i]) > -1) {
+            if ((" " +item.nodes).indexOf(" "+nodenames[i]+" ") > -1) {
               return true
             }
           }
@@ -203,8 +199,17 @@ export default {
       if (!order) {
         prop = 'Num'
       }
-      console.log("排序:", prop, order)
-      this.proEnterpriseList.sort(utils.compare(prop, order));
+
+      if(this.$store.state.chainname !== "生物医药" && this.$store.state.nodenames.length >0 && prop === 'Num'){
+        let n = this.$store.state.nodenames[0]
+        console.log("排序:", n, order)
+        this.proEnterpriseList.sort(function(a,b){
+          return b['nodewithnum'][n] - a['nodewithnum'][n]
+        })
+      }else {
+        console.log("排序:", prop, order)
+        this.proEnterpriseList.sort(utils.compare(prop, order));
+      }
     },
 
   }
