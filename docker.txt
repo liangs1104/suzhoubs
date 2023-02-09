@@ -8,3 +8,8 @@ cd /root/LiangShuang/suzhoubs
 docker build -t ls-suzhoubs .
 docker images
 docker run -d -p  8081:8081 ls-suzhoubs
+
+问题：Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+解决：
+systemctl start docker（启动docker)
+systemctl status docker（查看状态running就成功）
