@@ -1,3 +1,4 @@
+service docker start
 docker images
 docker ps -a
 docker stop cc06abab5e9f
